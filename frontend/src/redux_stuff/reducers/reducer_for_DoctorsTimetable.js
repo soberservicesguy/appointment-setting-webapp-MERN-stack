@@ -11,16 +11,16 @@ const initialState = {
 		},
 
 	totalDoctorsTimetable: [
-			{ weekday:'Monday', heading:'Cardiology', room_number:'12', time_slot:'07:00 - 08:00', booked_slots:['07:00 - 07:30'], doctors_name:'Mark Moreo', level_of_session:'Low Impact', endpoint:'dummy1',},
-			{ weekday:'Tuesday', heading:'Cardiology', room_number:'dummy2', time_slot:'08:00 - 08:30', booked_slots:[], doctors_name:'dummy2', level_of_session:'dummy2', endpoint:'dummy2',},
-			{ weekday:'Sunday', heading:'Pulmonary', room_number:'dummy7', time_slot:'07:00 - 11:00', booked_slots:[], doctors_name:'dummy7', level_of_session:'dummy7', endpoint:'dummy7',},
-			{ weekday:'Wednesday', heading:'Xray', room_number:'dummy3', time_slot:'09:00 - 11:00', booked_slots:[], doctors_name:'dummy3', level_of_session:'dummy3', endpoint:'dummy3',},
-			{ weekday:'Thursday', heading:'Cardiology', room_number:'dummy4', time_slot:'11:00 - 12:00', booked_slots:[], doctors_name:'dummy4', level_of_session:'dummy4', endpoint:'dummy4',},
-			{ weekday:'Friday', heading:'Cardiology', room_number:'dummy5', time_slot:'13:00 - 14:00', booked_slots:[], doctors_name:'dummy5', level_of_session:'dummy5', endpoint:'dummy5',},
-			{ weekday:'Saturday', heading:'Cardiology', room_number:'dummy6', time_slot:'14:00 - 18:00', booked_slots:[], doctors_name:'dummy6', level_of_session:'dummy6', endpoint:'dummy6',},
-			{ weekday:'Monday', heading:'Pulmonary', room_number:'dummy8', time_slot:'14:00 - 15:00', booked_slots:[], doctors_name:'dummy8', level_of_session:'dummy8', endpoint:'dummy8',},
-			{ weekday:'Monday', heading:'Pulmonary', room_number:'dummy9', time_slot:'19:00 - 20:00', booked_slots:[], doctors_name:'dummy9', level_of_session:'dummy9', endpoint:'dummy9',},
-			{ weekday:'Monday', heading:'Pulmonary', room_number:'dummy10', time_slot:'13:00 - 14:00', booked_slots:[], doctors_name:'dummy10', level_of_session:'dummy10', endpoint:'dummy10',},
+			{ fee:10, weekday:'Monday', heading:'Cardiology', room_number:'12', time_slot:'07:00 - 08:00', booked_slots:['07:00 - 07:30'], doctors_name:'Mark Moreo', level_of_session:'Low Impact', endpoint:'dummy1',},
+			{ fee:30, weekday:'Tuesday', heading:'Cardiology', room_number:'dummy2', time_slot:'08:00 - 08:30', booked_slots:[], doctors_name:'dummy2', level_of_session:'dummy2', endpoint:'dummy2',},
+			{ fee:20, weekday:'Sunday', heading:'Pulmonary', room_number:'dummy7', time_slot:'07:00 - 11:00', booked_slots:[], doctors_name:'dummy7', level_of_session:'dummy7', endpoint:'dummy7',},
+			{ fee:10, weekday:'Wednesday', heading:'Xray', room_number:'dummy3', time_slot:'09:00 - 11:00', booked_slots:[], doctors_name:'dummy3', level_of_session:'dummy3', endpoint:'dummy3',},
+			{ fee:30, weekday:'Thursday', heading:'Cardiology', room_number:'dummy4', time_slot:'11:00 - 12:00', booked_slots:[], doctors_name:'dummy4', level_of_session:'dummy4', endpoint:'dummy4',},
+			{ fee:15, weekday:'Friday', heading:'Cardiology', room_number:'dummy5', time_slot:'13:00 - 14:00', booked_slots:[], doctors_name:'dummy5', level_of_session:'dummy5', endpoint:'dummy5',},
+			{ fee:20, weekday:'Saturday', heading:'Cardiology', room_number:'dummy6', time_slot:'14:00 - 18:00', booked_slots:[], doctors_name:'dummy6', level_of_session:'dummy6', endpoint:'dummy6',},
+			{ fee:40, weekday:'Monday', heading:'Pulmonary', room_number:'dummy8', time_slot:'14:00 - 15:00', booked_slots:[], doctors_name:'dummy8', level_of_session:'dummy8', endpoint:'dummy8',},
+			{ fee:10, weekday:'Monday', heading:'Pulmonary', room_number:'dummy9', time_slot:'19:00 - 20:00', booked_slots:[], doctors_name:'dummy9', level_of_session:'dummy9', endpoint:'dummy9',},
+			{ fee:20, weekday:'Monday', heading:'Pulmonary', room_number:'dummy10', time_slot:'13:00 - 14:00', booked_slots:[], doctors_name:'dummy10', level_of_session:'dummy10', endpoint:'dummy10',},
 		],
 
 	heading_to_show:'All Departments', // or departments, used to show only that department

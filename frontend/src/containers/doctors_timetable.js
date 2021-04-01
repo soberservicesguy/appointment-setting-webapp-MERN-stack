@@ -219,6 +219,14 @@ class DoctorsTimetableContainer extends Component {
 	  			paddingTop:0,
 	  			paddingBottom:0,
 	  			marginTop:0,
+	  			marginBottom:'110%',
+	  		},
+	  		fee:{
+	  			fontSize: 18,
+	  			fontWeight:'bold',
+	  			paddingTop:0,
+	  			paddingBottom:0,
+	  			marginTop:0,
 	  			marginBottom:0,
 	  		},
 	  		tableHeader:{
@@ -296,6 +304,12 @@ class DoctorsTimetableContainer extends Component {
 
 		function getTimetableBlockStyle(object, single_day_clinics){
 			return {
+				background:'none',
+				outline:'none',
+				// backgroundColor: 'none',
+				border:'none',
+				color:'white',
+
 				backgroundColor: object.props.colors_for_departments[single_day_clinics.heading],
 				marginBottom: object.props.gap_height,
 				height: (object.props.graph_slot_height + object.props.gap_height) * getTotalSessionsFromTimeRange( single_day_clinics.time_slot ) - object.props.gap_height, // reducing to one gap height for marginbottom
@@ -312,7 +326,6 @@ class DoctorsTimetableContainer extends Component {
 
 		function getTimetableBlock(object, single_day_clinics){
 			return (
-
 				<React.Fragment>
 					<p style={styles.heading}>
 						{single_day_clinics.heading}
@@ -326,12 +339,14 @@ class DoctorsTimetableContainer extends Component {
 					<p style={styles.doctors_name}>
 						{single_day_clinics.doctors_name}
 					</p>
+					<p style={styles.fee}>
+						${single_day_clinics.fee}
+					</p>
 					<p style={styles.level_of_session}>
 						{single_day_clinics.level_of_session}
 					</p>
+
 				</React.Fragment>
-					
-					
 			)
 		}
 
@@ -402,7 +417,7 @@ class DoctorsTimetableContainer extends Component {
 			}}>
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
 				</button>
-
+				
 				{show_options_to_select_slot_for_appointment(this, this.state.clinic_selected)}
 
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
@@ -464,13 +479,10 @@ class DoctorsTimetableContainer extends Component {
 									show_timetable_for_certain_department(this, weekday)
 								)
 								.map((single_day_clinics, index) => (
-									<button  onClick={ () => this.setState(prev => ({ ...prev, clinic_selected:single_day_clinics, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={{
-										background:'none',
-										outline:'none',
-										backgroundColor: 'none',
-										border:'none',
-										...getTimetableBlockStyle(this, single_day_clinics)
-									}}>
+									<button  
+										onClick={ () => this.setState(prev => ({ ...prev, clinic_selected:single_day_clinics, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } 
+										style={getTimetableBlockStyle(this, single_day_clinics)}
+									>
 										{getTimetableBlock(this, single_day_clinics)}
 									</button>
 									/*<div style={getTimetableBlockStyle(this, single_day_clinics)}>

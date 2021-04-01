@@ -6,8 +6,9 @@ const DoctorsAppointmentSchema = new mongoose.Schema({
 
 	_id: Schema.Types.ObjectId,
 
+	apointment_slot:String,
 	patients_name:String,
-	apointment_slot:Number,
+	patients_contact_number:String,
 
 // other model links
 	doctorstimetable:{ type: Schema.Types.ObjectId, ref: 'DoctorsTimetable' },
