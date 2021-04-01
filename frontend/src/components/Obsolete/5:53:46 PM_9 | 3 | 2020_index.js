@@ -1,0 +1,14 @@
+export {default as Cardwithaccordions} from "./cardwithaccordions.js";
+export {default as Cardwithheadingovertextoverimage} from "./cardwithheadingovertextoverimage.js";
+export {default as Cardwithimageoverheadingovertext} from "./cardwithimageoverheadingovertext.js";
+export {default as DoctorsAppointmentCard} from "./doctors_appointment_card.js";
+export {default as DoctorsAppointmentIndividual} from "./doctors_appointment_individual.js";
+export {default as DoctorsTimetableCard} from "./doctors_timetable_card.js";
+export {default as DoctorsTimetableIndividual} from "./doctors_timetable_individual.js";
+export {default as Footersection} from "./footersection.js";
+export {default as Headingovertextoverbulletsandimage} from "./headingovertextoverbulletsandimage.js";
+export {default as Imageovertextandchecklist} from "./imageovertextandchecklist.js";
+export {default as Mainslider} from "./mainslider.js";
+export {default as Qoutewithstaticbg} from "./qoutewithstaticbg.js";
+export {default as Setappointment} from "./setappointment.js";
+export {default as Timetableshowcase} from "./timetableshowcase.js";
