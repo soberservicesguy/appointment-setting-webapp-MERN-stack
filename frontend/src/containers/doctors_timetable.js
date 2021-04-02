@@ -133,6 +133,8 @@ class DoctorsTimetableContainer extends Component {
 			time_slot:'',
 			show_booking_modal: false,
 			clinic_selected:'',
+			patients_name:'',
+			patients_contact_number:'',
 		}	
 	}
 
@@ -150,6 +152,12 @@ class DoctorsTimetableContainer extends Component {
 
 	}
 
+
+	handleInputChange = (event, state_field) => {
+		// console.log(event.target.value)
+		let value = event.target.value
+		this.setState(prev => ({...prev, state_field: value}))
+	}
 
 
 // RENDER METHOD
@@ -265,12 +273,63 @@ class DoctorsTimetableContainer extends Component {
 	  		buttonWithoutOutline:{
 				background:'none',
 				outline:'none',
-				backgroundColor: 'grey',
-				opacity:0.7,
+				backgroundColor: 'black',
+				opacity:0.95,
 				border:'none',
-				height: '40vh',
+				height: '30vh',
 				width:'100%'
-			}
+			},
+
+			roundTextInputContainer:{
+				width:'100%', 
+				height:50,
+				margin:'auto',
+				marginTop:10,
+				marginLeft:0,
+				marginRight:0,
+				// marginBottom:0,
+				// backgroundColor: '#000000',
+			},
+			roundTextInput:{
+				outline:'none', 
+				width:'100%', 
+				height:50, 
+				paddingLeft:20,
+				paddingRight:100, 
+				color:'white', 
+				borderRadius:30,
+				borderWidth:1, 
+				borderStyle:'solid',
+				borderColor:'grey', 
+				backgroundColor: 'grey',
+			},
+			roundButton:{
+				textAlign:'center',
+				width:300,
+				height:'100%',
+				border:'none',
+				background: 'none',
+				outline:'none',
+				color:'black',
+				fontWeight:'bold',
+			},
+			formAndRounButtonContainer:{
+				marginTop:0,
+				margin:'auto',
+				// flex:1,
+				flexBasis:'50%',
+				// width: '20%',
+				// width: 100,
+				height: 60,
+				backgroundColor: 'none',
+				borderRadius: 40,
+				borderWidth: 1, 
+				borderStyle: 'solid',
+				borderColor: 'grey', 
+				backgroundColor: 'white',
+			},
+
+
 	  	}
 
 	  	const all_departments_for_timetable = getAllUsedValuesOfSingleKeyInArray(this.props.total_doctorstimetables, 'heading')
@@ -410,15 +469,70 @@ class DoctorsTimetableContainer extends Component {
 		}
 
 
+
 		const set_appointment_modal = (this.state.show_booking_modal) ? (
 			<div style={{
 				position:'absolute',
-				width:'100%'
+				width:'100%',
 			}}>
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
 				</button>
-				
-				{show_options_to_select_slot_for_appointment(this, this.state.clinic_selected)}
+
+	{/* form for creating an appointment */}
+
+				<div style={{
+					width:'40%',
+					margin:'auto',
+					marginBottom:10,
+				}}>
+					<div style={styles.roundTextInputContainer}>
+						<form>
+							<input 
+								placeholder="Enter your name" 
+								type="text" 
+								// name="post_text"
+								// multiline={true}
+								onChange={ (event) =>  this.handleInputChange(event, 'patients_name') }
+								style={styles.roundTextInput} 
+							/>
+						</form>
+					</div>
+					<div style={{...styles.roundTextInputContainer, marginBottom:10,}}>
+						<form>
+							<input 
+								placeholder="Enter your contact number" 
+								type="text" 
+								// name="post_text"
+								// multiline={true}
+								onChange={ (event) =>  this.handleInputChange(event, 'patients_contact_number') }
+								style={styles.roundTextInput} 
+							/>
+						</form>
+					</div>
+
+					<div style={{
+						width:'40%',
+						margin:'auto',
+						display:'flex',
+						flexDirection:'row',
+						justifyContent: 'space-around',
+						alignItems:'center',
+						// height:60,
+						// marginBottom:20,
+					}}>
+
+						{show_options_to_select_slot_for_appointment(this, this.state.clinic_selected)}
+
+						<div style={{...styles.formAndRounButtonContainer, marginLeft:50, width:300}}>
+							<button 
+								style={styles.roundButton}
+								onClick={ () => {}}
+							>
+								BOOK
+							</button>
+						</div>
+					</div>
+				</div>
 
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
 				</button>
@@ -429,7 +543,9 @@ class DoctorsTimetableContainer extends Component {
 		)
 
 
+
 		return (
+
 			<Grid item style={{backgroundColor: '#eee'}}>				
 
 {/* rendering departments slots to show timetable only for those */}
