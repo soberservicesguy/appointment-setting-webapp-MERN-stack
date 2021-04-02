@@ -7,7 +7,129 @@ const router = require('express').Router();
 const DoctorsTimetable = mongoose.model('DoctorsTimetable');
 const DoctorsAppointment = mongoose.model('DoctorsAppointment');
 
+
+router.get('/get-timetables-list', function(req, res, next){
+	console.log('INCOMMING')
+
+	DoctorsTimetable.
+	find().
+	// limit(10).
+	exec((doctorstimetables) => {
+
+		if (doctorstimetables){
+
+			doctorstimetables.map((doctorstimetable, index) => {
+
+				var newDoctorsTimetables_list = []
+				var newDoctorsTimetable = {}
+
+				newDoctorsTimetable.fee = newDoctorsTimetable[fee]
+				newDoctorsTimetable.weekday = newDoctorsTimetable[weekday]
+				newDoctorsTimetable.heading = doctorstimetable[heading]
+				newDoctorsTimetable.room_number = doctorstimetable[room_number]
+				newDoctorsTimetable.time_slot = doctorstimetable[time_slot]
+				newDoctorsTimetable.doctors_name = doctorstimetable[doctors_name]
+				newDoctorsTimetable.level_of_session = doctorstimetable[level_of_session]
+
+				newDoctorsTimetables_list.push({...newDoctorsTimetable})
+				newDoctorsTimetable = {}
+
+			});
+
+			console.log(newDoctorsTimetables_list)
+			res.status(200).json(newDoctorsTimetables_list);
+
+		} else {
+			console.log('CAUGHT ERROR')
+			res.status(200).json({ success: false, msg: "could not find DoctorsTimetables_list" });
+		}
+
+	})
+
+});
+
+
+router.post('/create-time-slot', function(req, res, next){
+
+	DoctorsTimetable.findOne({weekday: req.body.weekday, room_number:req.body.room_number, time_slot: req.body.time_slot})
+	.then((timetable_object) => {
+		if (!timetable_object){
+
+			let newTimeSlot = new DoctorsTimetable({
+				fee: req.body.fee,
+				weekday: req.body.weekday,
+				heading: req.body.heading,
+				room_number: req.body.room_number,
+				time_slot: req.body.time_slot,
+				doctors_name: req.body.doctors_name,
+				level_of_session: req.body.level_of_session,
+			})
+
+			newTimeSlot.save(function (err, newTimeSlot) {
+				if (err) return console.log(err);
+				res.status(200).json(newTimeSlot);
+			});
+
+		} else {
+			res.status(401).json({msg: 'this slot is already having some doctors booking'});
+		}
+	})
+
+})
+
 // create a new doctorstimetable
+router.post('/book-time-slot', function(req, res, next){
+
+	DoctorsTimetable.findOne({ endpoint: req.body.timetable_slot_endpoint })
+	.then((timetable_object) => {
+		if (!timetable_object) {
+
+			res.status(401).json({ success: false, msg: "could not find timetable_object" });
+
+		} else {
+
+			const newAppointment = new DoctorsAppointment({
+				apointment_slot: req.body.time_slot,
+				patients_name: req.body.patients_name,
+				patients_contact_number: req.body.patients_contact_number,		
+			})
+
+			newAppointment.doctorstimetable = timetable_object
+
+			newAppointment.save(function (err, newAppointment) {
+				if (err) return console.log(err);
+				res.status(200).json(newAppointment);
+			});
+
+			timetable_object.relatedappointment = newAppointment
+			timetable_object.save()
+			
+			res.status(200).json(doctorstimetable);
+
+		}
+
+	})
+	.catch((err) => {
+
+		next(err);
+
+	});
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.post('/create_doctorstimetable_with_children', function(req, res, next){
 
@@ -96,44 +218,7 @@ router.get('/find_doctorsappointment', function(req, res, next){
 		});
 });
 
-// get doctorstimetables_list
 
-router.get('/get-timetables-list', function(req, res, next){
-	DoctorsTimetable.
-	find().
-	limit(10).
-	exec((doctorstimetables) => {
-
-		if (doctorstimetables){
-
-			doctorstimetables.map((doctorstimetable, index) => {
-
-				var newDoctorsTimetables_list = []
-				var newDoctorsTimetable = {}
-
-				newDoctorsTimetable.heading = doctorstimetable[heading]
-				newDoctorsTimetable.room_number = doctorstimetable[room_number]
-				newDoctorsTimetable.time_slot = doctorstimetable[time_slot]
-				newDoctorsTimetable.total_possible_appointments = doctorstimetable[total_possible_appointments]
-				newDoctorsTimetable.doctors_name = doctorstimetable[doctors_name]
-				newDoctorsTimetable.level_of_session = doctorstimetable[level_of_session]
-
-				newDoctorsTimetables_list.push({...newDoctorsTimetable})
-				newDoctorsTimetable = {}
-
-			});
-			
-			console.log('SENT')
-			res.status(200).json(newDoctorsTimetables_list);
-
-		} else {
-
-			res.status(401).json({ success: false, msg: "could not find DoctorsTimetables_list" });
-		}
-
-	})
-
-});
 
 // get doctorsappointments_list
 

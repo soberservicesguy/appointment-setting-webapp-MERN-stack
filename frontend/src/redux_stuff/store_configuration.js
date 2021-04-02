@@ -12,11 +12,13 @@ import {
 	reducerJWT,
 	reducerForDoctorsTimetable,
 	reducerForDoctorsAppointment,
+	reducerForSetWeekSessions,
 } from "./reducers"
 
 export const rootReducer = combineReducers({
 	doctorstimetables: reducerForDoctorsTimetable,
 	doctorsappointments: reducerForDoctorsAppointment,
+	sessions_of_the_week: reducerForSetWeekSessions,
 });
 
 
@@ -30,11 +32,21 @@ export const mapStateToProps = state => {
 	current_doctorsappointment: state.doctorsappointments.currentDoctorsAppointment,
 
 	heading_to_show: state.doctorstimetables.heading_to_show,
+
+	entire_week_sessions: state.sessions_of_the_week.entireWeekSessions,
 	};
 };
 
 export const mapDispatchToProps = dispatch => {
 	return {
+
+		add_product_to_cart: (product_object) => dispatch( { type: "ADD_PRODUCT_TO_CART", product_object: product_object } ),
+		remove_product_from_cart: (product_id) => dispatch( { type: "REMOVE_PRODUCT_FROM_CART", product_id: product_id } ),
+
+		modify_product_size_of_some_item_in_cart: (product_id, size) => dispatch( { type:"EDIT_PRODUCT_SIZE", product_id: product_id, size: size } ),
+		modify_initial_quantity_of_some_item_in_cart: (product_id, quantity) => dispatch( { type:"EDIT_PRODUCT_QUANTITY", product_id: product_id, quantity: quantity } ),
+		modify_product_color_of_some_item_in_cart: (product_id, color) => dispatch( { type:"EDIT_PRODUCT_COLOR", product_id: product_id, color: color } ) ,
+
 
 		add_doctorstimetable: (doctorstimetable_object) => dispatch( { type: "ADD_DoctorsTimetable", doctorstimetable_object: doctorstimetable_object } ),
 		remove_doctorstimetable: (doctorstimetable_id) => dispatch( { type: "REMOVE_DoctorsTimetable", doctorstimetable_id: doctorstimetable_id } ),

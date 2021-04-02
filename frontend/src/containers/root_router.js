@@ -35,6 +35,7 @@ import {
 
 	ConnectedDoctorsTimetableContainer,
 	ConnectedDoctorsAppointmentContainer,
+	ConnectedSetWeeksClinic,
 } from "../redux_stuff/connected_components";
 
 // IMPORT CONNECTED COMPONENTS
@@ -337,6 +338,11 @@ class RootRouterContainer extends Component {
 						<Route exact path="/doctorstimetable_list">
 							<ConnectedDoctorsTimetableContainer/>
 						</Route>
+
+						<Route exact path="/set-weeks-clinic">
+							<ConnectedSetWeeksClinic/>
+						</Route>
+
 
 						<Route path="/doctorstimetables/:endpoint_param">
 							<ConnectedDoctorsTimetableIndividual/>

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+var endpoint_number = 393893
+
 const DoctorsTimetableSchema = new mongoose.Schema({
 
 	// APPOINTMENT BASED ON SINGLE ROOM, BEING RENTED BY DIFFERENT DOCTORS
@@ -22,5 +24,24 @@ const DoctorsTimetableSchema = new mongoose.Schema({
 	relatedappointment:[{ type: Schema.Types.ObjectId, ref: 'DoctorsAppointment' },],
 
 })
+
+DoctorsTimetableSchema.pre('save', function(next) {
+
+	endpoint_number += 1
+
+	this.endpoint = String( endpoint_number )
+	
+    next();
+
+});
+
+DoctorsTimetableSchema.post('save', function() {
+
+	// console.log('SAVED CONDITION')
+    // console.log(this)
+
+});
+
+
 
 mongoose.model('DoctorsTimetable', DoctorsTimetableSchema);

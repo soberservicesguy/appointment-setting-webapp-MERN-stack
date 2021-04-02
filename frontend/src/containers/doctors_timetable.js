@@ -130,11 +130,12 @@ class DoctorsTimetableContainer extends Component {
 		super(props);
 // STATE	
 		this.state = {
-			time_slot:'',
 			show_booking_modal: false,
 			clinic_selected:'',
+			time_slot:'',
 			patients_name:'',
 			patients_contact_number:'',
+			timetable_slot_endpoint:'',
 		}	
 	}
 
@@ -144,9 +145,12 @@ class DoctorsTimetableContainer extends Component {
 // FETCHING DATA FOR COMPONENT
 		axios.get(utils.baseUrl + '/doctorstimetables/get-timetables-list',)
 		.then((response) => {
+			console.log('RECIEVED')
+			console.log(response.data)
 			this.props.set_fetched_doctorstimetables(response.data)
 		})
 		.catch((error) => {
+			console.log('ERROR')
 			console.log(error);
 		})
 
@@ -159,6 +163,24 @@ class DoctorsTimetableContainer extends Component {
 		this.setState(prev => ({...prev, state_field: value}))
 	}
 
+	bookAppointment(){
+
+		axios.post(utils.baseUrl + '/doctorstimetables/book-time-slot',
+			{
+				time_slot: this.state.time_slot,
+				patients_name: this.state.patients_name,
+				patients_contact_number: this.state.patients_contact_number,	
+				timetable_slot_endpoint: this.state.timetable_slot_endpoint,
+			}
+		)
+		.then((response) => {
+			// this.props.set_fetched_doctorstimetables(response.data)
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+
+	}
 
 // RENDER METHOD
 	render() {
@@ -300,7 +322,7 @@ class DoctorsTimetableContainer extends Component {
 				borderRadius:30,
 				borderWidth:1, 
 				borderStyle:'solid',
-				borderColor:'grey', 
+				borderColor:'white', 
 				backgroundColor: 'grey',
 			},
 			roundButton:{
@@ -412,22 +434,18 @@ class DoctorsTimetableContainer extends Component {
 
 		function show_options_to_select_slot_for_appointment(object, single_day_clinics){
 
+			// setting endpoint for selected clinic
+			object.setState(prev => ({...prev, timetable_slot_endpoint: single_day_clinics.endpoint}))
+
 			// if multiple patients can be booked per slot, then simply make generateSlotsFromTimeRange to return as many instances of same slot as number of possible bookings per slot
-
 			let {time_slot, booked_slots} = single_day_clinics
-
 			let total_slots = generateSlotsFromTimeRange(time_slot)
-
-			// console.log({time_slot:time_slot})
-			// console.log({total_slots:total_slots})
 
 			let slots_available = total_slots.filter(
 				function(item){
 					return !booked_slots.includes(item)
 				}
 			)
-
-			// console.log({slots_available:slots_available})
 
 			return (
 				<div>
@@ -442,9 +460,6 @@ class DoctorsTimetableContainer extends Component {
 							value={object.state.time_slot}
 							label="Select Time Slot"
 							onChange={(event) => {
-								// console logging selected file from menu
-								console.log( event.target.value ) // gives first file
-								// setState method with event.target.files[0] as argument
 								object.setState(prev => ({...prev, time_slot: event.target.value}))
 							}}
 						>
@@ -524,11 +539,8 @@ class DoctorsTimetableContainer extends Component {
 						{show_options_to_select_slot_for_appointment(this, this.state.clinic_selected)}
 
 						<div style={{...styles.formAndRounButtonContainer, marginLeft:50, width:300}}>
-							<button 
-								style={styles.roundButton}
-								onClick={ () => {}}
-							>
-								BOOK
+							<button style={styles.roundButton} onClick={ () => this.bookAppointment() }>
+								BOOK TIME SLOT
 							</button>
 						</div>
 					</div>
@@ -601,9 +613,6 @@ class DoctorsTimetableContainer extends Component {
 									>
 										{getTimetableBlock(this, single_day_clinics)}
 									</button>
-									/*<div style={getTimetableBlockStyle(this, single_day_clinics)}>
-										{getTimetableBlock(this, single_day_clinics)}
-									</div>*/
 								))
 							}
 						</div>
