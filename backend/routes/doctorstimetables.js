@@ -8,43 +8,58 @@ const DoctorsTimetable = mongoose.model('DoctorsTimetable');
 const DoctorsAppointment = mongoose.model('DoctorsAppointment');
 
 
+router.get('/delete-all-doctors-sessions', async function(req, res, next){
+
+	await DoctorsTimetable.deleteMany({}, ()=>null)
+	res.status(200).json({ success: true, message: 'all doctors timetables deleted'});
+})
+
+
 router.get('/get-timetables-list', function(req, res, next){
 	console.log('INCOMMING')
+
+	var newDoctorsTimetables_list = []
+	var newDoctorsTimetable = {}
 
 	DoctorsTimetable.
 	find().
 	// limit(10).
-	exec((doctorstimetables) => {
+	populate('relatedappointment').
+	then((doctorstimetables) => {
 
 		if (doctorstimetables){
 
 			doctorstimetables.map((doctorstimetable, index) => {
 
-				var newDoctorsTimetables_list = []
-				var newDoctorsTimetable = {}
 
-				newDoctorsTimetable.fee = newDoctorsTimetable[fee]
-				newDoctorsTimetable.weekday = newDoctorsTimetable[weekday]
-				newDoctorsTimetable.heading = doctorstimetable[heading]
-				newDoctorsTimetable.room_number = doctorstimetable[room_number]
-				newDoctorsTimetable.time_slot = doctorstimetable[time_slot]
-				newDoctorsTimetable.doctors_name = doctorstimetable[doctors_name]
-				newDoctorsTimetable.level_of_session = doctorstimetable[level_of_session]
+				newDoctorsTimetable.fee = doctorstimetable['fee']
+				newDoctorsTimetable.weekday = doctorstimetable['weekday']
+				newDoctorsTimetable.heading = doctorstimetable['heading']
+				newDoctorsTimetable.room_number = doctorstimetable['room_number']
+				newDoctorsTimetable.time_slot = doctorstimetable['time_slot']
+				newDoctorsTimetable.doctors_name = doctorstimetable['doctors_name']
+				newDoctorsTimetable.level_of_session = doctorstimetable['level_of_session']
 
 				newDoctorsTimetables_list.push({...newDoctorsTimetable})
 				newDoctorsTimetable = {}
 
 			});
 
-			console.log(newDoctorsTimetables_list)
-			res.status(200).json(newDoctorsTimetables_list);
 
 		} else {
 			console.log('CAUGHT ERROR')
 			res.status(200).json({ success: false, msg: "could not find DoctorsTimetables_list" });
 		}
+		return newDoctorsTimetables_list
+	})
+	.then((newDoctorsTimetables_list) => {
+
+		console.log(newDoctorsTimetables_list)
+		res.status(200).json({success:true, timetables:newDoctorsTimetables_list});
 
 	})
+
+
 
 });
 

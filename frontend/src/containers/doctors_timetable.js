@@ -30,100 +30,6 @@ import {
 	getAllUsedValuesOfSingleKeyInArray,
 } from "../handy_functions/";
 
-// const styles = theme => ({
-// 	root: {
-// 		height: 48,
-// 		color: props => (props.cool) ? 'red' : 'black',
-// 		[theme.breakpoints.up('sm')]:{
-// 			paddingLeft:100
-// 		},
-// 	},
-// 	// timeSlotsList: {
-// 	// 	listStyleType: 'none', // 'circle' | 'square' | 'disc' | 'decimal' 
-// 	// 	// listStyleImage: url('../images/samosa.jpeg');
-// 	// },
-// 	// timeSlot:{
-// 	// 	textAlign:'center',
-// 	// 	color: 'grey',
-// 	// 	height: props => props.graph_slot_height,
-// 	// 	marginBottom: props => props.gap_height,
-// 	// 	fontSize: props => props.timeSlotFontSize,
-// 	// 	paddingTop: props => (props.graph_slot_height ) / 2 -props.timeSlotFontSize/2,
-// 	// 	paddingBottom: props => (props.graph_slot_height ) / 2 +props.timeSlotFontSize/2,
-// 	// 	backgroundColor: 'white',
-// 	// 	// width: props => props.graph_slot_width,
-// 	// },
-// 	// outerContainer:{
-// 	// 	display:'flex',
-// 	// 	justifyContent: 'flex-start' , //'space-between' 'space-around' 
-// 	// },
-// 	// timeSlotsChild:{
-// 	// 	flex:1
-// 	// },
-// 	// appointmentSlotsChild:{
-// 	// 	flexBasis: props => props.graph_slot_width,
-// 	// },
-// 	// heading:{
-// 	// 	fontSize: 15,
-// 	// 	fontWeight: 'bold',
-// 	// 	paddingTop:0,
-// 	// 	paddingBottom:0,
-// 	// 	marginTop:0,
-// 	// 	marginBottom:0,
-// 	// },
-// 	// room_number:{
-// 	// 	fontWeight:'bold',
-// 	// 	fontSize: 15,	
-// 	// 	paddingTop:0,
-// 	// 	paddingBottom:0,
-// 	// 	marginTop:0,
-// 	// 	marginBottom:0,
-// 	// },
-// 	// time_slot:{
-// 	// 	fontSize: 17,
-// 	// 	paddingTop:0,
-// 	// 	paddingBottom:0,
-// 	// 	marginTop:0,
-// 	// 	marginBottom:0,
-// 	// },
-// 	// doctors_name:{
-// 	// 	fontSize: 16,
-// 	// 	paddingTop:0,
-// 	// 	paddingBottom:0,
-// 	// 	marginTop:0,
-// 	// 	marginBottom:0,
-// 	// },
-// 	// level_of_session:{
-// 	// 	fontSize: 12,
-// 	// 	paddingTop:0,
-// 	// 	paddingBottom:0,
-// 	// 	marginTop:0,
-// 	// 	marginBottom:0,
-// 	// },
-// 	// tableHeader:{
-// 	// 	display:'flex',
-// 	// 	flexDirection:'row',
-// 	// },
-// 	// headingsToShow:{
-// 	// 	marginLeft:50,
-// 	// 	paddingBottom:20,
-// 	// 	paddingTop:20,
-// 	// },
-// 	// menuButtons:{
-// 	// 	border:'none',
-// 	// 	borderBottomWidth: 2,
-// 	// 	borderColor:'blue',
-// 	// 	borderStyle:'solid',
-// 	// 	borderTopWidth:0,
-// 	// 	borderLeftWidth:0,
-// 	// 	borderRightWidth:0,
-// 	// 	// width:100,
-// 	// 	paddingLeft:20,
-// 	// 	paddingRight:20,
-// 	// 	backgroundColor: 'inherit',
-// 	// 	marginRight:10,
-// 	// }
-// });
 
 class DoctorsTimetableContainer extends Component {
 	constructor(props) {
@@ -145,9 +51,12 @@ class DoctorsTimetableContainer extends Component {
 // FETCHING DATA FOR COMPONENT
 		axios.get(utils.baseUrl + '/timetables/get-timetables-list',)
 		.then((response) => {
-			console.log('RECIEVED')
-			console.log(response.data)
-			this.props.set_fetched_doctorstimetables(response.data)
+			if (response.data.success){
+				console.log('RECIEVED')
+				console.log('response.data')
+				console.log(response.data)
+				this.props.set_fetched_doctorstimetables(response.data.timetables)
+			}
 		})
 		.catch((error) => {
 			console.log('ERROR')
@@ -182,6 +91,20 @@ class DoctorsTimetableContainer extends Component {
 
 	}
 
+	generate_sequence(){
+		let a = 1.5
+		let sequence = [0, a]
+		let total_elements_of_sequence = generateSlotsFromTimeRange(this.props.operating_time)
+		
+		for (let i = 0; i < total_elements_of_sequence.length; i++) {
+			sequence.push( a + 0.5 )
+		} 
+
+		console.log({sequence:sequence})
+		return sequence
+	}
+
+
 // RENDER METHOD
 	render() {
 			
@@ -214,6 +137,7 @@ class DoctorsTimetableContainer extends Component {
 	  		appointmentSlotsChild:{
 	  			flexBasis: this.props.graph_slot_width,
 	  		},
+
 	  		heading:{
 	  			fontSize: 15,
 	  			fontWeight: 'bold',
@@ -249,7 +173,7 @@ class DoctorsTimetableContainer extends Component {
 	  			paddingTop:0,
 	  			paddingBottom:0,
 	  			marginTop:0,
-	  			marginBottom:'110%',
+	  			// marginBottom:'110%',
 	  		},
 	  		fee:{
 	  			fontSize: 18,
@@ -259,6 +183,7 @@ class DoctorsTimetableContainer extends Component {
 	  			marginTop:0,
 	  			marginBottom:0,
 	  		},
+
 	  		tableHeader:{
 	  			display:'flex',
 	  			flexDirection:'row',
@@ -384,6 +309,8 @@ class DoctorsTimetableContainer extends Component {
 
 
 		function getTimetableBlockStyle(object, single_day_clinics){
+			console.log('single_day_clinics.shift')
+			console.log(single_day_clinics.shift)
 			return {
 				background:'none',
 				outline:'none',
@@ -398,16 +325,19 @@ class DoctorsTimetableContainer extends Component {
 				position:'relative',
 				// top: 50*index,
 				top: (object.props.graph_slot_height + object.props.gap_height) * 
-					( 
-						calculateDownwardShiftForSlot(single_day_clinics.time_slot, object.props.operating_time) 
-						- single_day_clinics.shift
+					(
+						calculateDownwardShiftForSlot(single_day_clinics.time_slot, object.props.operating_time)
+						- object.generate_sequence()[single_day_clinics.shift]
+						// - single_day_clinics.shift*1.5 // 1.5 2 single_day_clinics.shift - 0.5
+						// - single_day_clinics.shift
+						// - single_day_clinics.shift/2
 					), // downwardshift sends them downward otherwise they all are in same position, single_day_clinics.shift is to be subsctracted because other than first slot, every other slot was taking the height of all previous ones and adding in its displacement,so reducing that
 			}
 		}
 
 		function getTimetableBlock(object, single_day_clinics){
 			return (
-				<React.Fragment>
+				<div style={{backgroundColor: 'blue'}}>
 					<p style={styles.heading}>
 						{single_day_clinics.heading}
 					</p>
@@ -427,7 +357,7 @@ class DoctorsTimetableContainer extends Component {
 						{single_day_clinics.level_of_session}
 					</p>
 
-				</React.Fragment>
+				</div>
 			)
 		}
 
@@ -609,7 +539,7 @@ class DoctorsTimetableContainer extends Component {
 								.map((single_day_clinics, index) => (
 									<button  
 										onClick={ () => this.setState(prev => ({ ...prev, clinic_selected:single_day_clinics, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } 
-										style={getTimetableBlockStyle(this, single_day_clinics)}
+										style={{...getTimetableBlockStyle(this, single_day_clinics), backgroundColor: '#000000'}}
 									>
 										{getTimetableBlock(this, single_day_clinics)}
 									</button>

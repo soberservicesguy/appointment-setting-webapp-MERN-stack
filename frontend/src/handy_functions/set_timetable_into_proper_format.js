@@ -33,7 +33,7 @@ function setTimetableIntoProperFormat(the_array, week_days){
 
 	})
 
-	console.log(final_array_with_shift)
+	// console.log(final_array_with_shift)
 	return final_array_with_shift
 }
 

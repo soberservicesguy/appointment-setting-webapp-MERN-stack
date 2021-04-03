@@ -1,5 +1,8 @@
 function getTotalSessionsFromTimeRange(time_duration){
 
+	console.log('time_duration')
+	console.log(time_duration)
+
 	var time_regex_pattern = /\d\d:\d\d/g
 	var time_slots =  time_duration.match(time_regex_pattern) // gives array of matches
 

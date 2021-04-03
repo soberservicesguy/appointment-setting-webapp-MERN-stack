@@ -21,6 +21,8 @@ import { DoctorsAppointmentCard } from "../components"
 
 import {
 	generateSlotsFromTimeRange,
+	generateSlotsFromStartingTime,
+	generateSlotsFromEndingTime,
 } from "../handy_functions/";
 
 
@@ -111,12 +113,16 @@ class SetWeeksClinic extends Component {
 						</p>
 					</div>
 
-					<div style={{flex:2, textAlign:'center', fontWeight:'bold', paddingLeft:150}}>
+					<div style={{flex:2, textAlign:'center', fontWeight:'bold', paddingLeft:50}}>
 						<p>Room number</p>
 					</div>
 
-					<div style={{flex:2, textAlign:'center', fontWeight:'bold', paddingRight:30}}>
-						<p>Time slot</p>
+					<div style={{flex:1, textAlign:'center', fontWeight:'bold', paddingRight:0}}>
+						<p>Session Start</p>
+					</div>
+
+					<div style={{flex:1, textAlign:'center', fontWeight:'bold', paddingRight:0}}>
+						<p>Session End</p>
 					</div>
 
 					<div style={{flexBasis:200, textAlign:'center', fontWeight:'bold', paddingRight:50, }}>
@@ -132,13 +138,13 @@ class SetWeeksClinic extends Component {
 					</div>
 
 
-					<div style={{flex:1, textAlign:'center', fontWeight:'bold', paddingRight:50}}>
+					<div style={{flex:1, textAlign:'center', fontWeight:'bold', paddingRight:0}}>
 						<p>Level of session</p>
 					</div>
 
 					<div style={{flex:1, fontWeight:'bold',  textAlign:'center', fontWeight:'bold', paddingRight:30}}>
 						<button 
-							onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', time_slot: '', room_number: '', doctors_name: '', heading: '', weekday: '', fee:''}) }
+							onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', time_slot: '', time_slot_start: '', time_slot_end: '', room_number: '', doctors_name: '', heading: '', weekday: '', fee:''}) }
 							style={{
 								outline:"none",
 								background:'none',
@@ -200,7 +206,7 @@ class SetWeeksClinic extends Component {
 												label="Select Weekday"
 												onChange={(event) => {
 													this.props.modify_some_attribute_of_some_session(item.id, 'weekday', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													// console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -225,7 +231,7 @@ class SetWeeksClinic extends Component {
 												// multiline={true}
 												onChange={ (event) => {
 													this.props.modify_some_attribute_of_some_session(item.id, 'heading', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													// console.log(this.props.entire_week_sessions)
 												}}
 												style={{height:50}} 
 											/>
@@ -236,7 +242,7 @@ class SetWeeksClinic extends Component {
 									<div style={{flex:2, }}>
 										<FormControl variant="outlined" style={{width:(_xs || _sm) ? '100%' : '80%'}}>
 											<InputLabel id="demo-simple-select-outlined-label" style={{fontSize:20}}>
-												Color
+												Room
 											</InputLabel>
 											<Select
 												style={{width:'100%', fontSize:20, height:50}}
@@ -245,7 +251,7 @@ class SetWeeksClinic extends Component {
 												label="Select Product Color"
 												onChange={(event) => {
 													this.props.modify_some_attribute_of_some_session(item.id, 'room_number', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													// console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -264,7 +270,7 @@ class SetWeeksClinic extends Component {
 									<div style={{flex:1,}}>
 										<FormControl variant="outlined" style={{width:(_xs || _sm) ? '100%' : '80%'}}>
 											<InputLabel id="demo-simple-select-outlined-label" style={{fontSize:20,}}>
-												Size
+												Start
 											</InputLabel>
 											<Select
 												style={{width:'100%', fontSize:20, height:50}}
@@ -272,12 +278,39 @@ class SetWeeksClinic extends Component {
 												id="demo-simple-select-outlined"
 												label="Select Product Size"
 												onChange={(event) => {
-													this.props.modify_some_attribute_of_some_session(item.id, 'slot', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													this.props.modify_some_attribute_of_some_session(item.id, 'time_slot_start', event.target.value)
+													this.props.modify_some_attribute_of_some_session(item.id, 'time_slot', `${event.target.value} - ${item.time_slot_end}`)
 												}}
 												// value={this.state.privileges_selected}
 											>
-												{this.props.slots_range.map((slot) => {
+												{this.props.slots_starting_time.map((slot) => {
+													return (
+														<MenuItem value={slot}>
+															<em>{slot}</em>
+														</MenuItem>
+													)
+												})}
+											</Select>
+										</FormControl>
+									</div>
+
+									<div style={{flex:1, }}>
+										<FormControl variant="outlined" style={{width:(_xs || _sm) ? '100%' : '80%'}}>
+											<InputLabel id="demo-simple-select-outlined-label" style={{fontSize:20,}}>
+												End
+											</InputLabel>
+											<Select
+												style={{width:'100%', fontSize:20, height:50,}}
+												labelId="demo-simple-select-outlined-label"
+												id="demo-simple-select-outlined"
+												label="Select Product Size"
+												onChange={(event) => {
+													this.props.modify_some_attribute_of_some_session(item.id, 'time_slot_end', event.target.value)
+													this.props.modify_some_attribute_of_some_session(item.id, 'time_slot', `${item.time_slot_start} - ${event.target.value}`)
+												}}
+												// value={this.state.privileges_selected}
+											>
+												{this.props.slots_ending_time.map((slot) => {
 													return (
 														<MenuItem value={slot}>
 															<em>{slot}</em>
@@ -297,7 +330,7 @@ class SetWeeksClinic extends Component {
 												// multiline={true}
 												onChange={ (event) => {
 													this.props.modify_some_attribute_of_some_session(item.id, 'doctors_name', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													// console.log(this.props.entire_week_sessions)
 												}}
 												style={{height:50}} 
 											/>
@@ -313,7 +346,7 @@ class SetWeeksClinic extends Component {
 												// multiline={true}
 												onChange={ (event) => {
 													this.props.modify_some_attribute_of_some_session(item.id, 'fee', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													// console.log(this.props.entire_week_sessions)
 												}}
 												style={{height:50}} 
 											/>
@@ -325,7 +358,7 @@ class SetWeeksClinic extends Component {
 									<div style={{marginLeft:20,flexBasis:100,}}>
 										<FormControl variant="outlined" style={{width:(_xs || _sm) ? '100%' : '80%'}}>
 											<InputLabel id="demo-simple-select-outlined-label" style={{fontSize:20,}}>
-												Size
+												Level
 											</InputLabel>
 											<Select
 												style={{width:'100%', fontSize:20, height:50}}
@@ -334,7 +367,7 @@ class SetWeeksClinic extends Component {
 												label="Select Product Size"
 												onChange={(event) => {
 													this.props.modify_some_attribute_of_some_session(item.id, 'level_of_session', event.target.value)
-													console.log(this.props.entire_week_sessions)
+													// console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -353,7 +386,7 @@ class SetWeeksClinic extends Component {
 
 									<div style={{flex:1, fontSize:20, fontWeight:'bold', paddingTop:10, textAlign:'center', paddingRight:40,}}>
 										<button 
-											onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', slot: '', room_number: '', doctors_name: '', heading: '', weekday: '',}) }
+											onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', time_slot: '', time_slot_start: '', time_slot_end: '', room_number: '', doctors_name: '', heading: '', weekday: '', fee:''}) }
 											style={{
 												outline:"none",
 												background:'none',
@@ -409,14 +442,14 @@ class SetWeeksClinic extends Component {
 	 								if (response.data.success){
 	 									console.log(`${session} is created`)
 	 									this.setState(prev => ({...prev, 
-	 										session_creating_message: [...prev.session_creating_message, `Your session on ${session.weekday} with ${session.slot} was created`]
+	 										session_creating_message: [...prev.session_creating_message, `Your session on ${session.weekday} with ${session.time_slot} was created`]
 	 									}))
 
 	 								} else {
 	 									console.log(`${session} is NOT created`)
 	 									console.log({reason: response.data.msg})
 	 									this.setState(prev => ({...prev, 
-	 										session_creating_message: [...prev.session_creating_message, `Your session on ${session.weekday} with ${session.slot} was NOT created due to ${JSON.stringify(response.data.msg)}`]
+	 										session_creating_message: [...prev.session_creating_message, `Your session on ${session.weekday} with ${session.time_slot} was NOT created due to ${JSON.stringify(response.data.msg)}`]
 	 									}))
 
 	 								}
@@ -449,6 +482,42 @@ class SetWeeksClinic extends Component {
 				</div>
 
 
+
+
+				<div style={{margin:'auto', width:'30%', marginTop:50}}>
+					<button 
+						onClick = {() => {
+							axios.get(utils.baseUrl + '/timetables/delete-all-doctors-sessions',)
+ 							.then((response) => {
+ 								if (response.data.success){
+ 									console.log('ALL SESSIONS DELETED')
+ 								} else {
+ 									console.log('couldnt delete')
+ 								}
+							})
+							.catch((error) => {
+								console.log(error)
+							})		 
+						}}
+						
+						style={{
+							outline:"none",
+							background:'none',
+							borderWidth:0,
+							fontWeight:'bold',
+							fontSize:25,
+							paddingBottom:0,
+							textAlign: 'center',
+							width:'100%',
+							color:'white',
+							backgroundColor: 'red',
+						}}
+					>
+						DELETE ALL EXISTING SESSIONS
+					</button>
+				</div>
+
+
 				<ol style={{
 					listStyleType: 'upper-roman',
 					textAlign:'center',
@@ -456,7 +525,8 @@ class SetWeeksClinic extends Component {
 					fontWeight:'bold',
 					width:'100%',
 					height:'30vh',
-					overflow:'scroll'
+					overflow:'scroll',
+					marginTop:50
 				}}>
 					{this.state.session_creating_message.map((msg) => {
 						return (
@@ -474,6 +544,8 @@ SetWeeksClinic.defaultProps = {
 	weekdays:['Monday', 'Teusday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 	room_numbers: [1, 2, 3, 4, 5, 6, 7],
 	slots_range: generateSlotsFromTimeRange('08:00 - 18:00'),
+	slots_starting_time:generateSlotsFromStartingTime('08:00 - 18:00'),
+	slots_ending_time:generateSlotsFromEndingTime('08:00 - 18:00'),
 	available_level: ['low impact', 'medium impact', 'high impact', 'NA'],
 };
 
