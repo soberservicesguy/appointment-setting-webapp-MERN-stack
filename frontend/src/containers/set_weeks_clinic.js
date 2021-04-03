@@ -29,6 +29,7 @@ class SetWeeksClinic extends Component {
 		super(props);
 // STATE	
 		this.state = {
+			session_creating_message:[],
 		}	
 	}
 
@@ -396,16 +397,38 @@ class SetWeeksClinic extends Component {
 						onClick = {() => {
 							// this.create_session()
 
-							let all_sessions = this.props.all_sessions
-							axios.post(utils.baseUrl + '/timetables/create-time-slots',
-								{all_sessions: 'asdas'}
-							)
- 							.then((response) => {
-								console.log('slots created')
+							let all_sessions = new FormData();
+							console.log('this.props.entire_week_sessions')
+							console.log(this.props.entire_week_sessions)
+
+							this.props.entire_week_sessions.map((session) => {
+								// console.log({session})
+								// all_sessions.append('session_slot', session.id)
+								axios.post(utils.baseUrl + '/timetables/create-time-slots', session)
+	 							.then((response) => {
+	 								if (response.data.success){
+	 									console.log(`${session} is created`)
+	 									this.setState(prev => ({...prev, 
+	 										session_creating_message: [...prev.session_creating_message, `Your session on ${session.weekday} with ${session.slot} was created`]
+	 									}))
+
+	 								} else {
+	 									console.log(`${session} is NOT created`)
+	 									console.log({reason: response.data.msg})
+	 									this.setState(prev => ({...prev, 
+	 										session_creating_message: [...prev.session_creating_message, `Your session on ${session.weekday} with ${session.slot} was NOT created due to ${JSON.stringify(response.data.msg)}`]
+	 									}))
+
+	 								}
+								})
+								.catch((error) => {
+									console.log(error)
+								})		 
 							})
-							.catch((error) => {
-								console.log(error);
-							})		 
+
+							console.log({all_sessions})
+
+
 						}}
 						
 						style={{
@@ -424,6 +447,24 @@ class SetWeeksClinic extends Component {
 						CREATE SESSIONS
 					</button>
 				</div>
+
+
+				<ol style={{
+					listStyleType: 'upper-roman',
+					textAlign:'center',
+					fontSize:30,
+					fontWeight:'bold',
+					width:'100%',
+					height:'30vh',
+					overflow:'scroll'
+				}}>
+					{this.state.session_creating_message.map((msg) => {
+						return (
+							<li>{msg}</li>
+						)
+					})}
+				</ol> 
+
 			</div>
 		);
 	}

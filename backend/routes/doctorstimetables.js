@@ -53,39 +53,36 @@ router.post('/create-time-slots', function(req, res, next){
 
 	try{
 
-		console.log('TRIGGERED')
-		let all_sessions = req.body.all_sessions
-		console.log(all_sessions)
+		DoctorsTimetable.findOne({weekday: req.body.weekday, room_number:req.body.room_number, time_slot: req.body.time_slot})
+		.then((timetable_object) => {
+			if (!timetable_object){
 
-		all_sessions.map((session) => {
+				let newTimeSlot = new DoctorsTimetable({
+					_id: new mongoose.Types.ObjectId(),
+					fee: req.body.fee,
+					weekday: req.body.weekday,
+					heading: req.body.heading,
+					room_number: req.body.room_number,
+					time_slot: req.body.time_slot,
+					doctors_name: req.body.doctors_name,
+					level_of_session: req.body.level_of_session,
+				})
 
-			DoctorsTimetable.findOne({weekday: req.body.weekday, room_number:req.body.room_number, time_slot: req.body.time_slot})
-			.then((timetable_object) => {
-				if (!timetable_object){
+				newTimeSlot.save(function (err, newTimeSlot) {
+					if (err) return res.status(200).json({success:false, msg:err});;
+					res.status(200).json({success:true, msg:'session created'});
+				});
 
-					let newTimeSlot = new DoctorsTimetable({
-						fee: session.fee,
-						weekday: session.weekday,
-						heading: session.heading,
-						room_number: session.room_number,
-						time_slot: session.time_slot,
-						doctors_name: session.doctors_name,
-						level_of_session: session.level_of_session,
-					})
 
-					newTimeSlot.save(function (err, newTimeSlot) {
-						if (err) return console.log(err);
-						res.status(200).json(newTimeSlot);
-					});
-
-				} else {
-					res.status(401).json({msg: 'this slot is already having some doctors booking'});
-				}
-			})
-
+			} else {
+				res.status(200).json({success:false, msg: `this slot ${req.body.time_slot} is already having some doctors booking`});
+			}
+		})
+		.catch((err) => {
+			console.log(err)
+			res.status(200).json({success:false, msg:err});
 		})
 
-		res.status(200).json(newTimeSlot);
 
 	} catch (err){
 		console.log(err)
