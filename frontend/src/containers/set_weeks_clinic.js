@@ -23,32 +23,12 @@ import {
 	generateSlotsFromTimeRange,
 } from "../handy_functions/";
 
-const styles = theme => ({
-  root: {
-    height: 48,
-    color: props => (props.cool) ? 'red' : 'black',
-    [theme.breakpoints.up('sm')]:{
-    	paddingLeft:100
-    },
-  },
-});
 
 class SetWeeksClinic extends Component {
 	constructor(props) {
 		super(props);
 // STATE	
 		this.state = {
-			total_rows:1,
-			
-			sessions_being_planned:[],
-
-			level_of_session:'',
-			heading:'',
-			slot:'',
-			room_number:'',
-			doctors_name:'',
-			heading:'',
-			weekday:'',
 		}	
 	}
 
@@ -67,57 +47,18 @@ class SetWeeksClinic extends Component {
 
 	}
 
-	handleInputChange = (event, state_field, key) => {
-		// console.log(event.target.value)
-		let value = event.target.value
-
-		let current_session = this.state.sessions_being_planned[key]
-		let new_sessions_list = this.state.sessions_being_planned.splice(key, 1)
-		
-
-		current_session = {...current_session, state_field: value}
-		
-		
-
-		new_sessions_list = [...new_sessions_list, current_session]
-
-
-		this.setState(prev => ({...prev, sessions_being_planned: new_sessions_list}))
-
-
-
-		// array.filter(
-		// 	function(item){
-		// 		return item.value === some_value
-		// 	}
-		// )
-
-
-		// sessions_being_planned:[],
-
-		// level_of_session:'',
-		// heading:'',
-		// slot:'',
-		// room_number:'',
-		// doctors_name:'',
-		// heading:'',
-		// weekday:'',
-	}
 
 
 // RENDER METHOD
 	render() {
 			
-		const total_doctorsappointments = this.props.total_doctorsappointments
 
-		const { classes } = this.props;
 	  	const {_xs, _sm, _md, _lg, _xl} = this.props
 
 	  	const styles = {
 
 	  	}
 
-	  	const total_rows_array = new Array(this.state.total_rows)
 
 		return (
 			<div>
@@ -171,9 +112,18 @@ class SetWeeksClinic extends Component {
 					</div>
 
 					<div style={{flex:1, fontWeight:'bold',  textAlign:'center', fontWeight:'bold', paddingRight:30}}>
-						<p>
+						<button 
+							onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', slot: '', room_number: '', doctors_name: '', heading: '', weekday: '',}) }
+							style={{
+								outline:"none",
+								background:'none',
+								borderWidth:0,
+								fontWeight:'bold',
+								fontSize:20,
+							}}
+						>
 							Add another field
-						</p>
+						</button>
 					</div>
 
 					<div style={{
@@ -189,7 +139,7 @@ class SetWeeksClinic extends Component {
 
 				<Grid container direction="column">
 
-					{[...total_rows_array].map((item, index) => {
+					{this.props.entire_week_sessions.map((item, index) => {
 						return(
 							<Grid key={index} item xs={12}>
 
@@ -208,24 +158,24 @@ class SetWeeksClinic extends Component {
 									paddingTop:20,
 								}}>	
 									<div style={{flexBasis:50,}}>
-										<p style={{paddingLeft:10,}}>
-											{index + 1} 
+										<p style={{paddingLeft:10, paddingTop:10,}}>
+											{Number(item.id) + 1} 
 										</p>
 									</div>			
 
 									<div style={{flexBasis:200,}}>
 										<FormControl variant="outlined" style={{width:(_xs || _sm) ? '100%' : '80%', }}>
 											<InputLabel id="demo-simple-select-outlined-label" style={{fontSize:20}}>
-												Color
+												Weekday
 											</InputLabel>
 											<Select
 												style={{width:'100%', fontSize:20, height:50}}
 												labelId="demo-simple-select-outlined-label"
 												id="demo-simple-select-outlined"
-												label="Select Product Color"
+												label="Select Weekday"
 												onChange={(event) => {
-													this.handleInputChange(event, 'weekday', index)
-													// this.setState(prev => ({...prev, weekday: event.target.value }))
+													this.props.modify_some_attribute_of_some_session(item.id, 'weekday', event.target.value)
+													console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -248,7 +198,10 @@ class SetWeeksClinic extends Component {
 												type="text" 
 												// name="post_text"
 												// multiline={true}
-												onChange={ (event) => this.handleInputChange(event, 'heading', index) }
+												onChange={ (event) => {
+													this.props.modify_some_attribute_of_some_session(item.id, 'heading', event.target.value)
+													console.log(this.props.entire_week_sessions)
+												}}
 												style={{height:50}} 
 											/>
 										</form>
@@ -266,8 +219,8 @@ class SetWeeksClinic extends Component {
 												id="demo-simple-select-outlined"
 												label="Select Product Color"
 												onChange={(event) => {
-													this.handleInputChange(event, 'room_number', index)
-													// this.setState(prev => ({...prev, room_number: event.target.value }))
+													this.props.modify_some_attribute_of_some_session(item.id, 'room_number', event.target.value)
+													console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -294,8 +247,8 @@ class SetWeeksClinic extends Component {
 												id="demo-simple-select-outlined"
 												label="Select Product Size"
 												onChange={(event) => {
-													this.handleInputChange(event, 'slot', index)
-													// this.setState(prev => ({...prev, slot: event.target.value }))
+													this.props.modify_some_attribute_of_some_session(item.id, 'slot', event.target.value)
+													console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -317,7 +270,10 @@ class SetWeeksClinic extends Component {
 												type="text" 
 												// name="post_text"
 												// multiline={true}
-												onChange={ (event) => this.handleInputChange(event, 'doctors_name', index) }
+												onChange={ (event) => {
+													this.props.modify_some_attribute_of_some_session(item.id, 'doctors_name', event.target.value)
+													console.log(this.props.entire_week_sessions)
+												}}
 												style={{height:50}} 
 											/>
 										</form>
@@ -335,8 +291,8 @@ class SetWeeksClinic extends Component {
 												id="demo-simple-select-outlined"
 												label="Select Product Size"
 												onChange={(event) => {
-													this.handleInputChange(event, 'level_of_session', index)
-													// this.setState(prev => ({...prev, level_of_session: event.target.value }))
+													this.props.modify_some_attribute_of_some_session(item.id, 'level_of_session', event.target.value)
+													console.log(this.props.entire_week_sessions)
 												}}
 												// value={this.state.privileges_selected}
 											>
@@ -355,16 +311,14 @@ class SetWeeksClinic extends Component {
 
 									<div style={{flex:1, fontSize:20, fontWeight:'bold', paddingTop:10, textAlign:'center', paddingRight:40,}}>
 										<button 
-											onClick = { () => {
-												this.setState(prev => ({...prev, total_rows: prev.total_rows + 1 })) 
-												console.log(this.state.sessions_being_planned)
-											}}
+											onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', slot: '', room_number: '', doctors_name: '', heading: '', weekday: '',}) }
 											style={{
 												outline:"none",
 												background:'none',
 												borderWidth:0,
 												fontWeight:'bold',
-												fontSize:20,
+												fontSize:30,
+												paddingBottom:10,
 											}}
 										>
 											+
@@ -376,7 +330,7 @@ class SetWeeksClinic extends Component {
 										flexBasis: 20,
 									}}>
 										<button 
-											onClick = { () => this.setState(prev => ({...prev, total_rows: prev.total_rows - 1 })) }
+											onClick = { () => this.props.remove_session(item.id) }
 											style={{
 												outline:"none",
 												background:'none',
@@ -407,5 +361,4 @@ SetWeeksClinic.defaultProps = {
 	available_level: ['low impact', 'medium impact', 'high impact', 'NA'],
 };
 
-export default withResponsiveness(withStyles(styles)(SetWeeksClinic));
-
+export default withResponsiveness(SetWeeksClinic)

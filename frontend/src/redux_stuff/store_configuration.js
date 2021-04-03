@@ -40,13 +40,9 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => {
 	return {
 
-		add_product_to_cart: (product_object) => dispatch( { type: "ADD_PRODUCT_TO_CART", product_object: product_object } ),
-		remove_product_from_cart: (product_id) => dispatch( { type: "REMOVE_PRODUCT_FROM_CART", product_id: product_id } ),
-
-		modify_product_size_of_some_item_in_cart: (product_id, size) => dispatch( { type:"EDIT_PRODUCT_SIZE", product_id: product_id, size: size } ),
-		modify_initial_quantity_of_some_item_in_cart: (product_id, quantity) => dispatch( { type:"EDIT_PRODUCT_QUANTITY", product_id: product_id, quantity: quantity } ),
-		modify_product_color_of_some_item_in_cart: (product_id, color) => dispatch( { type:"EDIT_PRODUCT_COLOR", product_id: product_id, color: color } ) ,
-
+		add_empty_session: (session_object) => dispatch( { type: "ADD_EMPTY_SESSION_SLOT", session_object: session_object } ),
+		remove_session: (session_id) => dispatch( { type: "REMOVE_SESSION_SLOT", session_id: session_id } ),
+		modify_some_attribute_of_some_session: (session_id, attribute_to_edit, attribute_value) => dispatch( { type:"EDIT_SOME_ATTRIBUTE_IN_SOME_SESSION", session_id: session_id, attribute_to_edit: attribute_to_edit, attribute_value: attribute_value } ),
 
 		add_doctorstimetable: (doctorstimetable_object) => dispatch( { type: "ADD_DoctorsTimetable", doctorstimetable_object: doctorstimetable_object } ),
 		remove_doctorstimetable: (doctorstimetable_id) => dispatch( { type: "REMOVE_DoctorsTimetable", doctorstimetable_id: doctorstimetable_id } ),
