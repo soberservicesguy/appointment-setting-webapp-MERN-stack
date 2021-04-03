@@ -36,18 +36,35 @@ class SetWeeksClinic extends Component {
 	componentDidMount() {
 
 // FETCHING DATA FOR COMPONENT
-			axios.get(utils.baseUrl + '/doctorsappointments/doctorsappointments_list',)
-			.then((response) => {
-				this.props.set_fetched_doctorsappointments(response.data)
-			})
-			.catch((error) => {
-				console.log(error);
-			})
+			// axios.get(utils.baseUrl + '/doctorsappointments/doctorsappointments_list',)
+			// .then((response) => {
+			// 	this.props.set_fetched_doctorsappointments(response.data)
+			// })
+			// .catch((error) => {
+			// 	console.log(error);
+			// })
 
 
 	}
 
+	create_session(){
 
+		let all_sessions = this.props.entire_week_sessions
+
+		console.log(all_sessions)
+		axios.post(utils.baseUrl + '/timetables/create-time-slots', 
+			{
+				all_sessions: {s:'all_sessions'}
+			}
+		)
+		.then((response) => {
+			console.log('slots created')
+		})
+		.catch((error) => {
+			console.log(error);
+		})		
+
+	}
 
 // RENDER METHOD
 	render() {
@@ -107,13 +124,20 @@ class SetWeeksClinic extends Component {
 						</p>
 					</div>
 
+					<div style={{flexBasis:200, textAlign:'center', fontWeight:'bold', paddingRight:50, }}>
+						<p>
+							Fee
+						</p>
+					</div>
+
+
 					<div style={{flex:1, textAlign:'center', fontWeight:'bold', paddingRight:50}}>
 						<p>Level of session</p>
 					</div>
 
 					<div style={{flex:1, fontWeight:'bold',  textAlign:'center', fontWeight:'bold', paddingRight:30}}>
 						<button 
-							onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', slot: '', room_number: '', doctors_name: '', heading: '', weekday: '',}) }
+							onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', time_slot: '', room_number: '', doctors_name: '', heading: '', weekday: '', fee:''}) }
 							style={{
 								outline:"none",
 								background:'none',
@@ -279,6 +303,23 @@ class SetWeeksClinic extends Component {
 										</form>
 									</div>
 
+									<div style={{flexBasis:200,}}>
+										<form>
+											<input 
+												placeholder="Enter Fee" 
+												type="text" 
+												// name="post_text"
+												// multiline={true}
+												onChange={ (event) => {
+													this.props.modify_some_attribute_of_some_session(item.id, 'fee', event.target.value)
+													console.log(this.props.entire_week_sessions)
+												}}
+												style={{height:50}} 
+											/>
+										</form>
+
+									</div>
+
 
 									<div style={{marginLeft:20,flexBasis:100,}}>
 										<FormControl variant="outlined" style={{width:(_xs || _sm) ? '100%' : '80%'}}>
@@ -349,6 +390,40 @@ class SetWeeksClinic extends Component {
 						)
 					})}
 				</Grid>
+
+				<div style={{margin:'auto', width:'30%',}}>
+					<button 
+						onClick = {() => {
+							// this.create_session()
+
+							let all_sessions = this.props.all_sessions
+							axios.post(utils.baseUrl + '/timetables/create-time-slots',
+								{all_sessions: 'asdas'}
+							)
+ 							.then((response) => {
+								console.log('slots created')
+							})
+							.catch((error) => {
+								console.log(error);
+							})		 
+						}}
+						
+						style={{
+							outline:"none",
+							background:'none',
+							borderWidth:0,
+							fontWeight:'bold',
+							fontSize:30,
+							paddingBottom:0,
+							textAlign: 'center',
+							width:'100%',
+							color:'white',
+							backgroundColor: 'blue',
+						}}
+					>
+						CREATE SESSIONS
+					</button>
+				</div>
 			</div>
 		);
 	}

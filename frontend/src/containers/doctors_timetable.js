@@ -143,7 +143,7 @@ class DoctorsTimetableContainer extends Component {
 	componentDidMount() {
 
 // FETCHING DATA FOR COMPONENT
-		axios.get(utils.baseUrl + '/doctorstimetables/get-timetables-list',)
+		axios.get(utils.baseUrl + '/timetables/get-timetables-list',)
 		.then((response) => {
 			console.log('RECIEVED')
 			console.log(response.data)
@@ -165,7 +165,7 @@ class DoctorsTimetableContainer extends Component {
 
 	bookAppointment(){
 
-		axios.post(utils.baseUrl + '/doctorstimetables/book-time-slot',
+		axios.post(utils.baseUrl + '/timetables/book-time-slot',
 			{
 				time_slot: this.state.time_slot,
 				patients_name: this.state.patients_name,

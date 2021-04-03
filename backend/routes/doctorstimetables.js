@@ -49,31 +49,48 @@ router.get('/get-timetables-list', function(req, res, next){
 });
 
 
-router.post('/create-time-slot', function(req, res, next){
+router.post('/create-time-slots', function(req, res, next){
 
-	DoctorsTimetable.findOne({weekday: req.body.weekday, room_number:req.body.room_number, time_slot: req.body.time_slot})
-	.then((timetable_object) => {
-		if (!timetable_object){
+	try{
 
-			let newTimeSlot = new DoctorsTimetable({
-				fee: req.body.fee,
-				weekday: req.body.weekday,
-				heading: req.body.heading,
-				room_number: req.body.room_number,
-				time_slot: req.body.time_slot,
-				doctors_name: req.body.doctors_name,
-				level_of_session: req.body.level_of_session,
+		console.log('TRIGGERED')
+		let all_sessions = req.body.all_sessions
+		console.log(all_sessions)
+
+		all_sessions.map((session) => {
+
+			DoctorsTimetable.findOne({weekday: req.body.weekday, room_number:req.body.room_number, time_slot: req.body.time_slot})
+			.then((timetable_object) => {
+				if (!timetable_object){
+
+					let newTimeSlot = new DoctorsTimetable({
+						fee: session.fee,
+						weekday: session.weekday,
+						heading: session.heading,
+						room_number: session.room_number,
+						time_slot: session.time_slot,
+						doctors_name: session.doctors_name,
+						level_of_session: session.level_of_session,
+					})
+
+					newTimeSlot.save(function (err, newTimeSlot) {
+						if (err) return console.log(err);
+						res.status(200).json(newTimeSlot);
+					});
+
+				} else {
+					res.status(401).json({msg: 'this slot is already having some doctors booking'});
+				}
 			})
 
-			newTimeSlot.save(function (err, newTimeSlot) {
-				if (err) return console.log(err);
-				res.status(200).json(newTimeSlot);
-			});
+		})
 
-		} else {
-			res.status(401).json({msg: 'this slot is already having some doctors booking'});
-		}
-	})
+		res.status(200).json(newTimeSlot);
+
+	} catch (err){
+		console.log(err)
+	}
+
 
 })
 
