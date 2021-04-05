@@ -12,7 +12,10 @@ import {
 // IMPORT responsiveness hook
 import withResponsiveness from "../responsiveness_hook";
 
-import { withRouter } from "react-router-dom";
+import {
+	withRouter,
+	Link,
+} from "react-router-dom";
 
 const styles = theme => ({
 	root: {
@@ -110,9 +113,11 @@ class HeadingOverBoldHeadingOverTextOverChecklistOverRoundbutton extends Compone
 					</Grid> 
 
 					<Grid item xs={12}>
-						<button className={classes.roundButton}>
-							{this.props.buttonText}
-						</button>
+						<div className={classes.roundButton}>
+							<Link to={`/doctorstimetable`}>
+								{this.props.buttonText}
+							</Link>
+						</div>
 					</Grid> 
 				</Grid>
 			</Grid>

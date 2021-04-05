@@ -16,7 +16,10 @@ import {
 	CardHavingImageOverBoldheadingOverHeading,
 } from "./"
 
-import { withRouter } from "react-router-dom";
+import { 
+	withRouter,
+	Link,
+} from "react-router-dom";
 
 
 import { 
@@ -117,37 +120,41 @@ class FourCardsInHorizontalLine2ndVersion extends Component {
 			}} >
 				{this.props.cardsDetailsList.map((cardsDetails)=>(
 					<Grid item xs={12} sm={6} md={3} lg={3}>
-						<div className={classes.outerContainer}>
-							<img src={cardsDetails.image} alt="" className={classes.cardImage}/>
-							<div style={{paddingLeft:20, paddingRight:20}}>
-								<p className={classes.cardHeading}>
-									{cardsDetails.cardHeading}
-								</p>
-								<div className={classes.dateAndCommentsContainer}>
-									<div style={{flex:2}}>
-										<p className={classes.date}>
-											{cardsDetails.date}
-										</p>
+					
+				  		<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+							<div className={classes.outerContainer}>
+								<img src={cardsDetails.image} alt="" className={classes.cardImage}/>
+								<div style={{paddingLeft:20, paddingRight:20}}>
+									<p className={classes.cardHeading}>
+										{cardsDetails.cardHeading}
+									</p>
+									<div className={classes.dateAndCommentsContainer}>
+										<div style={{flex:2}}>
+											<p className={classes.date}>
+												{cardsDetails.date}
+											</p>
+										</div>
+										<div style={{flex:1}}>
+										</div>
+										<div style={{flex:1}}>
+											<p className={classes.comments}>
+												<Message/> {cardsDetails.number_of_comments}
+											</p>
+										</div>
 									</div>
-									<div style={{flex:1}}>
-									</div>
-									<div style={{flex:1}}>
-										<p className={classes.comments}>
-											<Message/> {cardsDetails.number_of_comments}
-										</p>
-									</div>
+									<p className={classes.cardText}>
+										{cardsDetails.cardText}
+									</p>
+									<p style={{color:'grey', fontSize:14, marginBottom:5}}>
+										Posted in: <span style={{color:'blue'}}>{cardsDetails.posted_in}</span>
+									</p>
+									<p style={{color:'grey', fontSize:14, marginBottom:5}}>
+										Tags: <span style={{color:'blue'}}>{cardsDetails.tags}</span>
+									</p>
 								</div>
-								<p className={classes.cardText}>
-									{cardsDetails.cardText}
-								</p>
-								<p style={{color:'grey', fontSize:14, marginBottom:5}}>
-									Posted in: <span style={{color:'blue'}}>{cardsDetails.posted_in}</span>
-								</p>
-								<p style={{color:'grey', fontSize:14, marginBottom:5}}>
-									Tags: <span style={{color:'blue'}}>{cardsDetails.tags}</span>
-								</p>
 							</div>
-						</div>
+						</Link>
+						
 					</Grid>
 				))}
 			</Grid>
@@ -160,7 +167,7 @@ FourCardsInHorizontalLine2ndVersion.defaultProps = {
 	//:,
 	cardsDetailsList:[
 		{
-			image:require('../images/samosa.jpeg'),
+			image:require('../images/doctors_first_trip.jpeg'),
 			cardHeading:'Planning my first trip',
 			cardText: 'Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
 			posted_in:'Aristotle',
@@ -169,8 +176,8 @@ FourCardsInHorizontalLine2ndVersion.defaultProps = {
 			number_of_comments:0,
 		},
 		{
-			image:require('../images/samosa.jpeg'),
-			cardHeading:'Planning my first trip',
+			image:require('../images/Following_up.jpeg'),
+			cardHeading:'Following up',
 			cardText: 'Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
 			posted_in:'Aristotle',
 			tags: 'Qoutes, Health, Nutrition',
@@ -178,8 +185,8 @@ FourCardsInHorizontalLine2ndVersion.defaultProps = {
 			number_of_comments:0,
 		},
 		{
-			image:require('../images/samosa.jpeg'),
-			cardHeading:'Planning my first trip',
+			image:require('../images/Getting_Surgery.jpeg'),
+			cardHeading:'Getting Surgery',
 			cardText: 'Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
 			posted_in:'Aristotle',
 			tags: 'Qoutes, Health, Nutrition',
@@ -187,8 +194,8 @@ FourCardsInHorizontalLine2ndVersion.defaultProps = {
 			number_of_comments:0,
 		},
 		{
-			image:require('../images/samosa.jpeg'),
-			cardHeading:'Planning my first trip',
+			image:require('../images/staying_fit.jpeg'),
+			cardHeading:'Staying fit',
 			cardText: 'Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.',
 			posted_in:'Aristotle',
 			tags: 'Qoutes, Health, Nutrition',

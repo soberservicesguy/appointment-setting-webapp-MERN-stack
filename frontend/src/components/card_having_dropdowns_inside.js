@@ -12,7 +12,10 @@ import {
 // IMPORT responsiveness hook
 import withResponsiveness from "../responsiveness_hook";
 
-import { withRouter } from "react-router-dom";
+import {
+	withRouter,
+	Link,
+} from "react-router-dom";
 
 import { 
 	Tune,
@@ -110,24 +113,26 @@ class CardHavingDropdownsInside extends Component {
 				</Grid>
 
 				<Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-					<div className={classes.bgImage}>
-						<p style={{fontSize:15, fontWeight:'bold', position:'relative', top:'40%'}}>
-							Dr. Rodney Stratton
-						</p>
-						<p style={{fontSize:12, color:'blue', position:'relative', top:'35%'}}>
-							<Tune/>36 years experience
-						</p>
-						<p style={{color:'blue', position:'relative', top:'40%'}}>
-							Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat…
-						</p>
-					</div>
+			  		<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+						<div className={classes.bgImage}>
+							<p style={{fontSize:15, fontWeight:'bold', position:'relative', top:'40%'}}>
+								Dr. Rodney Stratton
+							</p>
+							<p style={{fontSize:12, color:'blue', position:'relative', top:'35%'}}>
+								<Tune/>36 years experience
+							</p>
+							<p style={{color:'blue', position:'relative', top:'40%'}}>
+								Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat…
+							</p>
+						</div>
 
-					<button className={classes.buttonInCard}>
-						Gynaecological <Add/>
-					</button>
-					<button className={classes.buttonInCard}>
-						Pediatric <Add/>
-					</button>
+						<button className={classes.buttonInCard}>
+							Gynaecological <Add/>
+						</button>
+						<button className={classes.buttonInCard}>
+							Pediatric <Add/>
+						</button>
+					</Link>
 				</Grid>
 			</Grid>
 		);

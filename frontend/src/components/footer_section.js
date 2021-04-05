@@ -11,7 +11,10 @@ import {
 } from "@material-ui/core";
 // IMPORT responsiveness hook
 import withResponsiveness from "../responsiveness_hook";
-import { withRouter } from "react-router-dom";
+import {
+	withRouter,
+	Link,
+} from "react-router-dom";
 
 import { IconButton } from '@material-ui/core';
 import { 
@@ -145,21 +148,27 @@ class FooterSection extends Component {
 			<div style={{backgroundColor: 'blue', paddingTop:0, marginTop:100,}} >
 				<Grid container direction="row" alignItems="top" justify="center" spacing={2} className={classes.floatingCallToAction}>
 					<Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
-						<p className={classes.headingInCallToAction}>
-							Ready to get started ?
-						</p>
-						<p className={classes.textInCallToAction}>
-							Get in touch or create an account
-						</p>
+							<p className={classes.headingInCallToAction}>
+								Ready to get started ?
+							</p>
+
+							<p className={classes.textInCallToAction}>
+								Just start using it
+							</p>
 					</Grid>
 
 					<Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
 						<button className={classes.roundButton} >
-							Request Demo
+							<Link to={`/set-weeks-clinic`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+								Set Doctors Timetable
+							</Link>
 							<div className={classes.inlineCircle} ></div>
 						</button>
+
 						<button className={classes.roundButton} style={{marginLeft:10, backgroundColor: '#000000'}} >
-							Buy Now
+							<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+								Get Doctors Appointment
+							</Link>
 							<div className={classes.inlineCircle} ></div>
 						</button>
 					</Grid>
@@ -187,22 +196,30 @@ class FooterSection extends Component {
 						<ul className={classes.unorderedList} >
 							<li className={classes.listElements}>
 								<button className={classes.buttonWrapperForListElements}>
-									FAQ
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										FAQ
+									</Link>
 								</button>
 							</li>
 							<li className={classes.listElements}>
 								<button className={classes.buttonWrapperForListElements}>
-									Portfolio
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										Portfolio
+									</Link>
 								</button>
 							</li>
 							<li className={classes.listElements}>
 								<button className={classes.buttonWrapperForListElements}>
-									Services
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										Services
+									</Link>
 								</button>
 							</li>
 							<li className={classes.listElements}>
 								<button className={classes.buttonWrapperForListElements}>
-									Team
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										Team
+									</Link>
 								</button>
 							</li>
 						</ul> 
@@ -220,17 +237,23 @@ class FooterSection extends Component {
 							</li>
 							<li className={classes.listElements}>
 								<button className={classes.buttonWrapperForListElements}>
-									Blog
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										Blog
+									</Link>
 								</button>
 							</li>
 							<li className={classes.listElements}>
 								<button className={classes.buttonWrapperForListElements}>
-									Careers
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										Careers
+									</Link>
 								</button>
 							</li>
 							<li className={classes.listElements}>					
 								<button className={classes.buttonWrapperForListElements}>
-									Contact Us
+									<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+										Contact Us
+									</Link>
 								</button>
 							</li>
 						</ul> 

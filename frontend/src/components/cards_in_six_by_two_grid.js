@@ -12,7 +12,10 @@ import {
 // IMPORT responsiveness hook
 import withResponsiveness from "../responsiveness_hook";
 
-import { withRouter } from "react-router-dom";
+import {
+	withRouter,
+	Link,
+} from "react-router-dom";
 
 const styles = theme => ({
 	root: {
@@ -101,13 +104,15 @@ class CardsInSixByTwoGrid extends Component {
 				<Grid item container direction="row" spacing={2} alignItems="center" justify="center">
 					{this.props.cardsDetailsList.map((cardsDetail)=>(
 						<Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
-							<img src={cardsDetail.image} alt="" className={classes.cardImage}/>
-							<p className={classes.cardHeading}>
-								{cardsDetail.heading}
-							</p>
-							<p className={classes.text}>
-								{cardsDetail.text}
-							</p>
+					  		<Link to={`/doctorstimetable`} style={{color: 'inherit', textDecoration: 'inherit',}}>
+								<img src={cardsDetail.image} alt="" className={classes.cardImage}/>
+								<p className={classes.cardHeading}>
+									{cardsDetail.heading}
+								</p>
+								<p className={classes.text}>
+									{cardsDetail.text}
+								</p>
+							</Link>
 						</Grid>
 					))}
 				</Grid>
