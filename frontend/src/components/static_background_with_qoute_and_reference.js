@@ -92,7 +92,7 @@ StaticBackgroundWithQouteAndReference.defaultProps = {
 	//:,
 	qoute:'“Every mountain top is within reach if you just keep climbing.”',
 	reference:'Richard James Molloy',
-	backgroundImage: require('../images/samosa.jpeg'),	
+	backgroundImage: require('../images/health.jpeg'),	
 };
 
 export default withRouter(withResponsiveness(withStyles(styles)(StaticBackgroundWithQouteAndReference)));

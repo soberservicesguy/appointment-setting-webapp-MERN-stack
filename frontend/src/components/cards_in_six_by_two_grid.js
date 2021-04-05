@@ -119,18 +119,18 @@ class CardsInSixByTwoGrid extends Component {
 CardsInSixByTwoGrid.defaultProps = {
 	//:,
 	cardsDetailsList:[
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
-		{image:require('../images/samosa.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},	
+		{image:require('../images/neurology.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/cardiography.jpeg'), heading:'Cardiography', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/gynaecology.jpeg'), heading:'Gynaecological', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/Pediatric.jpeg'), heading:'Pediatric', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/ENT.jpeg'), heading:'ENT', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/urology.jpeg'), heading:'Urology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/Dental.jpeg'), heading:'Dental', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/Diet and Nutirion.jpeg'), heading:'Diet and Nutirion', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/Ophthalmology.jpeg'), heading:'Ophthalmology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/Psychiatry.jpeg'), heading:'Psychiatry', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/Psychotherapy.jpeg'), heading:'Psychotherapy', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},
+		{image:require('../images/neurology.jpeg'), heading:'Neurology', text:'Lorem ipsum Lorem ipsum Lorem ipsum'},	
 	]
 };
 

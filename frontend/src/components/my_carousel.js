@@ -59,7 +59,10 @@ class MyCarousel extends Component {
 
 		return (
 			<div className={classes.carouselContainer}>
-			  <Carousel 
+			  <Carousel
+			    interval={3000}
+				autoPlay={true}
+				infiniteLoop={true}
 			    showArrows={true} 
 			    renderThumbs={this.props.showThumbsFunction}
 			    // onChange={onChange} 
@@ -86,9 +89,12 @@ MyCarousel.defaultProps = {
 	carouselHeight:500,
 	showThumbsFunction:() => null,
 	carouselImagesList:[
-		{imageSource: require('../images/samosa.jpeg')},
-		{imageSource: require('../images/samosa.jpeg')},
-		{imageSource: require('../images/samosa.jpeg')},	
+		{imageSource: require('../images/Ophthalmology.jpeg')},	
+		{imageSource: require('../images/neurology.jpeg')},	
+		// {imageSource: require('../images/gynaecology.jpeg')},	
+		{imageSource: require('../images/Psychiatry.jpeg')},
+		{imageSource: require('../images/Dental.jpeg')},
+		{imageSource: require('../images/urology.jpeg')},	
 	]
 };
 

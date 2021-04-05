@@ -25,15 +25,6 @@ import {
 	FourCardsInHorizontalLine2ndVersion,
 } from "../components/"
 
-const styles = theme => ({
-  root: {
-    height: 48,
-    color: props => (props.cool) ? 'red' : 'black',
-    [theme.breakpoints.up('sm')]:{
-    	paddingLeft:100
-    },
-  },
-});
 
 class HomeContainer extends Component {
 	constructor(props) {
@@ -90,11 +81,15 @@ class HomeContainer extends Component {
 
 				<Grid item container direction="row" alignItems="center" justify="center" spacing={2} style={{marginBottom:50,}}>
 					<Grid item xs={12} sm={12} md={9} lg={9} xl={9}>
-						<ImageOverTextAndVerticalListWithTicksInBeginning/>
+						<ImageOverTextAndVerticalListWithTicksInBeginning
+							image={require('../images/hospital.jpeg')}
+						/>
 					</Grid>
 
 					<Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-						<CardHavingDropdownsInside/>
+						<CardHavingDropdownsInside
+							cardImage={require('../images/dr_rodney.jpeg')}
+						/>
 					</Grid>
 				</Grid>
 
@@ -119,4 +114,4 @@ HomeContainer.defaultProps = {
 	// : ,
 };
 
-export default withResponsiveness(withStyles(styles)(HomeContainer));
+export default withResponsiveness(HomeContainer)

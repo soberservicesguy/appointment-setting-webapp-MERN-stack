@@ -56,7 +56,7 @@ const styles = theme => ({
 	},
 	bgImage:{
 		backgroundImage: props => `url(${props.cardImage})`,
-		backgroundColor: '#eee', // Used if the image is unavailable
+		backgroundColor: 'black', // Used if the image is unavailable
 		backgroundPosition: 'center',
 		backgroundRepeat: 'no-repeat',
 		// backgroundAttachment: 'fixed',	
@@ -117,7 +117,7 @@ class CardHavingDropdownsInside extends Component {
 						<p style={{fontSize:12, color:'blue', position:'relative', top:'35%'}}>
 							<Tune/>36 years experience
 						</p>
-						<p style={{color:'grey', position:'relative', top:'40%'}}>
+						<p style={{color:'blue', position:'relative', top:'40%'}}>
 							Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat…
 						</p>
 					</div>
