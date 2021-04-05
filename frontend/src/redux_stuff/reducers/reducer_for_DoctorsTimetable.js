@@ -10,9 +10,11 @@ const initialState = {
 			endpoint:'dummy',
 		},
 
+	timetable_slot_endpoint:null,
+
 	totalDoctorsTimetable: [
-			{ fee:10, weekday:'Monday', heading:'Cardiology', room_number:'12', time_slot:'07:00 - 08:00', booked_slots:['07:00 - 07:30'], doctors_name:'Mark Moreo', level_of_session:'Low Impact', endpoint:'dummy1',},
-			{ fee:30, weekday:'Tuesday', heading:'Cardiology', room_number:'dummy2', time_slot:'08:00 - 08:30', booked_slots:[], doctors_name:'dummy2', level_of_session:'dummy2', endpoint:'dummy2',},
+			{ fee:10, weekday:'Monday', heading:'Cardiology', room_number:'12', time_slot:'07:00 - 07:30', booked_slots:['07:00 - 07:30'], doctors_name:'Mark Moreo', level_of_session:'Low Impact', endpoint:'dummy1',},
+			{ fee:30, weekday:'Monday', heading:'Cardiology', room_number:'dummy2', time_slot:'08:00 - 08:30', booked_slots:[], doctors_name:'dummy2', level_of_session:'dummy2', endpoint:'dummy2',},
 			{ fee:20, weekday:'Sunday', heading:'Pulmonary', room_number:'dummy7', time_slot:'07:00 - 11:00', booked_slots:[], doctors_name:'dummy7', level_of_session:'dummy7', endpoint:'dummy7',},
 			{ fee:10, weekday:'Wednesday', heading:'Xray', room_number:'dummy3', time_slot:'09:00 - 11:00', booked_slots:[], doctors_name:'dummy3', level_of_session:'dummy3', endpoint:'dummy3',},
 			{ fee:30, weekday:'Thursday', heading:'Cardiology', room_number:'dummy4', time_slot:'11:00 - 12:00', booked_slots:[], doctors_name:'dummy4', level_of_session:'dummy4', endpoint:'dummy4',},
@@ -29,6 +31,12 @@ const initialState = {
 const reducerForDoctorsTimetable = (state = initialState, action) => {
 
 	switch (action.type) {
+
+		case "SET_TIMETABLE_ENDPOINT":
+
+			return {...state, timetable_slot_endpoint: action.endpoint }
+			break;
+
 
 		case "ADD_DoctorsTimetable":
 

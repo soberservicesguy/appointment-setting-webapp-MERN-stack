@@ -21,7 +21,7 @@ const DoctorsTimetableSchema = new mongoose.Schema({
 
 // other model links
 	// booked_slots:Number, // extract from relatedappointment
-	relatedappointment:[{ type: Schema.Types.ObjectId, ref: 'DoctorsAppointment' },],
+	relatedappointments:[{ type: Schema.Types.ObjectId, ref: 'DoctorsAppointment' },],
 
 })
 

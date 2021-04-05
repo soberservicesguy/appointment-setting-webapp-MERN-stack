@@ -24,6 +24,7 @@ export const rootReducer = combineReducers({
 
 export const mapStateToProps = state => {
   return {
+  	timetable_slot_endpoint: state.doctorstimetables.timetable_slot_endpoint,
 
 	total_doctorstimetables: state.doctorstimetables.totalDoctorsTimetable,
 	current_doctorstimetable: state.doctorstimetables.currentDoctorsTimetable,
@@ -39,6 +40,7 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
 	return {
+		set_timetable_slot_endpoint:(endpoint) => dispatch( { type: "SET_TIMETABLE_ENDPOINT", endpoint: endpoint } ),
 
 		add_empty_session: (session_object) => dispatch( { type: "ADD_EMPTY_SESSION_SLOT", session_object: session_object } ),
 		remove_session: (session_id) => dispatch( { type: "REMOVE_SESSION_SLOT", session_id: session_id } ),

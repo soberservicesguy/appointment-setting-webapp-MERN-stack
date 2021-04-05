@@ -36,6 +36,10 @@ class DoctorsTimetableContainer extends Component {
 		super(props);
 // STATE	
 		this.state = {
+			scroll_position:0,
+			booking_status:'',
+
+
 			show_booking_modal: false,
 			clinic_selected:'',
 			time_slot:'',
@@ -45,8 +49,30 @@ class DoctorsTimetableContainer extends Component {
 		}	
 	}
 
+	componentWillUnmount(){
+		window.removeEventListener("scroll", this.onScroll);
+	}
+
+	onScroll = async () => {
+		const scrollY = window.scrollY
+		console.log(scrollY)
+
+		this.setState(prev => ({...prev, scroll_position: scrollY }))
+		
+		// console.log(`onScroll, window.scrollY: ${scrollY}, user_screen_height: ${window.screen.height}, total_page_height: ${window.screen.availHeight}, real_height:${this.state.tracked_container_height}`)
+		// console.log({difference: this.state.tracked_container_height - scrollY})
+		// console.log({container_height: this.state.tracked_container_height})
+		// this.state.tracked_container_height - scrollY = 629.5
+
+	// tracking end reached and adding more objects
+		// console.log({scrollY, real_height:this.state.tracked_container_height})
+
+		// let scroll_judgement_factor = this.state.tracked_container_height - scrollY
+	}
+
 // COMPONENT DID MOUNT
 	componentDidMount() {
+		window.addEventListener("scroll", this.onScroll, false);
 
 // FETCHING DATA FOR COMPONENT
 		axios.get(utils.baseUrl + '/timetables/get-timetables-list',)
@@ -55,6 +81,7 @@ class DoctorsTimetableContainer extends Component {
 				console.log('RECIEVED')
 				console.log('response.data')
 				console.log(response.data)
+				
 				this.props.set_fetched_doctorstimetables(response.data.timetables)
 			}
 		})
@@ -79,10 +106,20 @@ class DoctorsTimetableContainer extends Component {
 				time_slot: this.state.time_slot,
 				patients_name: this.state.patients_name,
 				patients_contact_number: this.state.patients_contact_number,	
-				timetable_slot_endpoint: this.state.timetable_slot_endpoint,
+				timetable_slot_endpoint: this.props.timetable_slot_endpoint, // had to put in redux since it was giving max updates reached error
 			}
 		)
 		.then((response) => {
+			if (response.data.success){
+				console.log('booked')
+				this.setState(prev => ({...prev, booking_status: 'successfully booked for you',  }))
+				let turnOffModal = () => this.setState(prev => ({...prev, show_booking_modal: false }))
+				setTimeout(function(){ turnOffModal() }, 1000);
+				// this.setState(prev => ({...prev, show_booking_modal: false }))
+				
+			} else {
+				this.setState(prev => ({...prev, booking_status: 'slot already booked', }))
+			}
 			// this.props.set_fetched_doctorstimetables(response.data)
 		})
 		.catch((error) => {
@@ -98,6 +135,7 @@ class DoctorsTimetableContainer extends Component {
 		
 		for (let i = 0; i < total_elements_of_sequence.length; i++) {
 			sequence.push( a + 0.5 )
+			a = a + 0.5
 		} 
 
 		console.log({sequence:sequence})
@@ -318,26 +356,39 @@ class DoctorsTimetableContainer extends Component {
 				border:'none',
 				color:'white',
 
-				backgroundColor: object.props.colors_for_departments[single_day_clinics.heading],
-				marginBottom: object.props.gap_height,
+				// backgroundColor: object.props.colors_for_departments[single_day_clinics.heading],
+				// backgroundColor: 'grey',
+				// marginBottom: object.props.gap_height,
 				height: (object.props.graph_slot_height + object.props.gap_height) * getTotalSessionsFromTimeRange( single_day_clinics.time_slot ) - object.props.gap_height, // reducing to one gap height for marginbottom
-				paddingTop:( (object.props.graph_slot_height + object.props.gap_height) * getTotalSessionsFromTimeRange( single_day_clinics.time_slot ) - object.props.gap_height )/2 - (15+15+17+16+12), // height from above - the text size with paddings 
-				position:'relative',
-				// top: 50*index,
+				paddingBottom:0,
+				marginTop:0,
+				marginBottom:0,
+				paddingBottom:0,
+				// paddingTop:( (object.props.graph_slot_height + object.props.gap_height) * getTotalSessionsFromTimeRange( single_day_clinics.time_slot ) - object.props.gap_height )/2 - (15+15+17+16+12), // height from above - the text size with paddings 
+				position:'absolute',
+
 				top: (object.props.graph_slot_height + object.props.gap_height) * 
 					(
 						calculateDownwardShiftForSlot(single_day_clinics.time_slot, object.props.operating_time)
-						- object.generate_sequence()[single_day_clinics.shift]
+						// - object.generate_sequence()[single_day_clinics.shift]
 						// - single_day_clinics.shift*1.5 // 1.5 2 single_day_clinics.shift - 0.5
 						// - single_day_clinics.shift
 						// - single_day_clinics.shift/2
-					), // downwardshift sends them downward otherwise they all are in same position, single_day_clinics.shift is to be subsctracted because other than first slot, every other slot was taking the height of all previous ones and adding in its displacement,so reducing that
+					// ), // downwardshift sends them downward otherwise they all are in same position, single_day_clinics.shift is to be subsctracted because other than first slot, every other slot was taking the height of all previous ones and adding in its displacement,so reducing that
+					) + 160,// hardcoded
+				// top: 0,
+				// top: (object.props.graph_slot_height + object.props.gap_height),
 			}
 		}
 
 		function getTimetableBlock(object, single_day_clinics){
 			return (
-				<div style={{backgroundColor: 'blue'}}>
+				<div style={{
+					backgroundColor: 'blue',
+					height: (object.props.graph_slot_height + object.props.gap_height) * getTotalSessionsFromTimeRange( single_day_clinics.time_slot ) - object.props.gap_height, // reducing to one gap height for marginbottom
+					position:'relative',
+					left:-60,
+				}}>
 					<p style={styles.heading}>
 						{single_day_clinics.heading}
 					</p>
@@ -365,7 +416,10 @@ class DoctorsTimetableContainer extends Component {
 		function show_options_to_select_slot_for_appointment(object, single_day_clinics){
 
 			// setting endpoint for selected clinic
-			object.setState(prev => ({...prev, timetable_slot_endpoint: single_day_clinics.endpoint}))
+			console.log('single_day_clinics.endpoint')
+			console.log(single_day_clinics.endpoint)
+			object.props.set_timetable_slot_endpoint(single_day_clinics.endpoint)
+			// object.setState(prev => ({...prev, timetable_slot_endpoint: single_day_clinics.endpoint}))
 
 			// if multiple patients can be booked per slot, then simply make generateSlotsFromTimeRange to return as many instances of same slot as number of possible bookings per slot
 			let {time_slot, booked_slots} = single_day_clinics
@@ -419,6 +473,9 @@ class DoctorsTimetableContainer extends Component {
 			<div style={{
 				position:'absolute',
 				width:'100%',
+				top: this.state.scroll_position,
+				backgroundColor: 'white',
+				paddingTop:20
 			}}>
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
 				</button>
@@ -427,6 +484,7 @@ class DoctorsTimetableContainer extends Component {
 
 				<div style={{
 					width:'40%',
+					height:'40vh',
 					margin:'auto',
 					marginBottom:10,
 				}}>
@@ -458,6 +516,7 @@ class DoctorsTimetableContainer extends Component {
 					<div style={{
 						width:'40%',
 						margin:'auto',
+						marginTop:30,
 						display:'flex',
 						flexDirection:'row',
 						justifyContent: 'space-around',
@@ -474,6 +533,15 @@ class DoctorsTimetableContainer extends Component {
 							</button>
 						</div>
 					</div>
+
+					<p style={{
+						fontSize:30,
+						fontWeight:'bold',
+						marginTop:20, 
+						textAlign:'center'
+					}}>
+						Booking Status: {this.state.booking_status}
+					</p>
 				</div>
 
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
@@ -539,7 +607,7 @@ class DoctorsTimetableContainer extends Component {
 								.map((single_day_clinics, index) => (
 									<button  
 										onClick={ () => this.setState(prev => ({ ...prev, clinic_selected:single_day_clinics, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } 
-										style={{...getTimetableBlockStyle(this, single_day_clinics), backgroundColor: '#000000'}}
+										style={{...getTimetableBlockStyle(this, single_day_clinics),}}
 									>
 										{getTimetableBlock(this, single_day_clinics)}
 									</button>

@@ -21,25 +21,17 @@ function calculateDownwardShiftForSlot(time_duration, operating_time){
 	var hour_difference = Number(starting_hour) - Number(operating_starting_hour) // 0 1 2
 	var minutes_difference = Number(starting_minutes) - Number(operating_starting_minutes)// 0 30 -30
 
-	// minutes_difference = (minutes_difference === 30 || minutes_difference === -30) ? 1 : 0
-	if (minutes_difference === 30 && hour_difference < 9){
+	if (minutes_difference === 30){
 		minutes_difference = 1
-	} else if (minutes_difference === 30 && hour_difference >= 9){
-		minutes_difference = 0
 	} else if (minutes_difference === -30 ){
-		minutes_difference = 2
+		minutes_difference = 1
 	} else {
 		minutes_difference = 0
 	}
 
-	// var total_downward_shift = hour_difference * 2 + minutes_difference
-	var total_downward_shift = hour_difference * 2
-	console.log({time_duration: operating_time, time_duration:time_duration, hour_difference:hour_difference, minutes_difference:minutes_difference, total_downward_shift:total_downward_shift})
+	var total_downward_shift = hour_difference * 2 + minutes_difference
+	// console.log({time_duration: operating_time, time_duration:time_duration, hour_difference:hour_difference, minutes_difference:minutes_difference, total_downward_shift:total_downward_shift})
 
-	// console.log( 'LOG downwardshift is ', total_downward_shift)
-
-	// console.log('total_downward_shift')
-	// console.log(total_downward_shift)
 	return total_downward_shift
 }
 

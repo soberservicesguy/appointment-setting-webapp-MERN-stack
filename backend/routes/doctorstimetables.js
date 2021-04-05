@@ -20,11 +20,12 @@ router.get('/get-timetables-list', function(req, res, next){
 
 	var newDoctorsTimetables_list = []
 	var newDoctorsTimetable = {}
+	var booked_slots = []
 
 	DoctorsTimetable.
 	find().
 	// limit(10).
-	populate('relatedappointment').
+	populate('relatedappointments').
 	then((doctorstimetables) => {
 
 		if (doctorstimetables){
@@ -39,6 +40,19 @@ router.get('/get-timetables-list', function(req, res, next){
 				newDoctorsTimetable.time_slot = doctorstimetable['time_slot']
 				newDoctorsTimetable.doctors_name = doctorstimetable['doctors_name']
 				newDoctorsTimetable.level_of_session = doctorstimetable['level_of_session']
+				newDoctorsTimetable.endpoint = doctorstimetable['endpoint']
+
+				console.log('doctorstimetable.relatedappointments')
+				console.log(doctorstimetable.relatedappointments)
+				doctorstimetable.relatedappointments.map((appointment) => {
+				
+					booked_slots.push(appointment.apointment_slot)
+				
+				})
+
+				newDoctorsTimetable.booked_slots = booked_slots
+				booked_slots = []
+
 
 				newDoctorsTimetables_list.push({...newDoctorsTimetable})
 				newDoctorsTimetable = {}
@@ -107,39 +121,59 @@ router.post('/create-time-slots', function(req, res, next){
 })
 
 // create a new doctorstimetable
-router.post('/book-time-slot', function(req, res, next){
+router.post('/book-time-slot', async function(req, res, next){
 
-	DoctorsTimetable.findOne({ endpoint: req.body.timetable_slot_endpoint })
-	.then((timetable_object) => {
+	console.log('INCOMING')
+	console.log(req.body.timetable_slot_endpoint)
+
+	DoctorsTimetable.findOne({ endpoint: req.body.timetable_slot_endpoint }).populate('relatedappointments')
+	.then(async (timetable_object) => {
+
 		if (!timetable_object) {
 
-			res.status(401).json({ success: false, msg: "could not find timetable_object" });
+			console.log('ERROR1')
+			res.status(401).json({ success: false, msg: "could not find timetable_object" });			
 
 		} else {
 
-			const newAppointment = new DoctorsAppointment({
-				apointment_slot: req.body.time_slot,
-				patients_name: req.body.patients_name,
-				patients_contact_number: req.body.patients_contact_number,		
-			})
+			let already_existing_appointments = timetable_object.relatedappointments.filter(
+				function(item){
+					return item.apointment_slot === req.body.time_slot
+				}
+			)
+			console.log('already_existing_appointments')
+			console.log(already_existing_appointments)
 
-			newAppointment.doctorstimetable = timetable_object
+			if (already_existing_appointments.length === 0){
 
-			newAppointment.save(function (err, newAppointment) {
-				if (err) return console.log(err);
-				res.status(200).json(newAppointment);
-			});
+				console.log('APPOINTMENT DOESNT EXIST')
+				const newAppointment = new DoctorsAppointment({
+					_id: new mongoose.Types.ObjectId(),
+					apointment_slot: req.body.time_slot,
+					patients_name: req.body.patients_name,
+					patients_contact_number: req.body.patients_contact_number,		
+				})
 
-			timetable_object.relatedappointment = newAppointment
-			timetable_object.save()
-			
-			res.status(200).json(doctorstimetable);
+				newAppointment.doctorstimetable = timetable_object
 
+				newAppointment.save(function (err, newAppointment) {
+					if (err) return console.log(err);
+				});
+
+				timetable_object.relatedappointments.push(newAppointment) 
+				timetable_object.save()
+				res.status(200).json({success:true});
+					
+			} else {
+
+				console.log('APPOINTMENT ALREADY EXIST')
+				res.status(200).json({success:false, msg:'slot already booked'});
+			}
 		}
 
 	})
 	.catch((err) => {
-
+		console.log(err)
 		next(err);
 
 	});
