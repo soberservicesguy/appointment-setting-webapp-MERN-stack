@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timetable
+  labels:
+    app: timetable
+spec:
+  replicas: 2
+  # strategy:
+  #   type: RollingUpdate
+  #   rollingUpdate:
+  #     maxSurge: 2        # how many pods we can add at a time
+  #     maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: timetable
+  template:
+    metadata:
+      labels:
+        app: timetable
+    spec:
+      containers:
+      - name: timetable
+        image: soberservicesguy/portfolio-images:appointment_timetable_4
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "300Mi"
+        ports:
+        - containerPort: 5001
+        env:
+        - name: MONGODB_USER
+          valueFrom:
+            secretKeyRef:
+              name: appointment-mongodb-secret
+              key: MONGO_ROOT_USERNAME
+        - name: MONGODB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: appointment-mongodb-secret
+              key: MONGO_ROOT_PASSWORD
+        - name: MONGODB_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: appointment-mongodb-configmap
+              key: MONGO_SERVER
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: timetable-service
+spec:
+  selector:
+    app: timetable
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001

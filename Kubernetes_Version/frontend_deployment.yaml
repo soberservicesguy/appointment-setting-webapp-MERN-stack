@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    run: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: frontend
+  template:
+    metadata:
+      labels:
+        run: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: soberservicesguy/portfolio-images:appointment_frontend
+        ports:
+        - containerPort: 3001 # WHERE THE APP IS RUNNING IN THE MACHINE
+      imagePullSecrets:
+      - name: regcred

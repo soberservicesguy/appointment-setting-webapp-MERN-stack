@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: timetable-service
+  labels:
+    run: appointment_app
+spec:
+  ports:
+  - port: 5001 # WHERE THE APP IS LISTENING INSIDE THE CONTAINER
+    protocol: TCP
+    targetPort: 3001 # PORT ON MACHINE WHERE THE APP WILL LISTEN
+    protocol: TCP
+  selector:
+    run: appointment_app
