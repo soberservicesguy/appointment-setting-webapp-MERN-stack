@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: appointment-frontend
-        image: soberservicesguy/portfolio-images:appointment_frontend
+        image: soberservicesguy/portfolio-images:appointment_frontend_6
         ports:
           - containerPort: 80
             name: http-port
@@ -37,10 +37,10 @@ kind: Service
 metadata:
   name: appointment-frontend-service
 spec:
-  ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 80
+  type: NodePort
   selector:
     app: appointment-frontend
-  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

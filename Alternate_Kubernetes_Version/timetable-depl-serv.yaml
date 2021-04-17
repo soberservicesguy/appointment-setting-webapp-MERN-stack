@@ -52,10 +52,11 @@ kind: Service
 metadata:
   name: timetable-service
 spec:
+  type: NodePort
+  # type: ClusterIP
   selector:
     app: timetable
-  type: ClusterIP
   ports:
     - protocol: TCP
-      port: 5001
       targetPort: 5001
+      port: 5001

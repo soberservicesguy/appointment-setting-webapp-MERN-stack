@@ -1,76 +1,27 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-appointment
+  name: example-ingress
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: localhost
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: appointment-frontend-service
-            port:
-              number: 80
-          # serviceName: todo-frontend-service
-          # servicePort: 80
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: ingress-todo-backend
-#   annotations:
-#     kubernetes.io/ingress.class: "nginx"
-#     nginx.ingress.kubernetes.io/rewrite-target: /api/
-# spec:
-#   rules:
-#   - http:
-#       paths:
-#       - path: /api/
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: todo-backend-service
-#             port:
-#               number: 5000
-
-# apiVersion: networking.k8s.io/v1beta1
-# kind: Ingress
-# metadata:
-#   name: ingress-todo-backend-service
-#   annotations:
-#     # use the shared ingress-nginx
-#     kubernetes.io/ingress.class: "nginx"
-# spec:
-#   rules:
-#   - http:
-#       paths:
-#       - path: /api/?(.*)
-#         backend:
-#           serviceName: todo-backend-service
-#           servicePort: 5000
-
-# apiVersion: networking.k8s.io/v1beta1
-# kind: Ingress
-# metadata:
-#   name: ingress-todo-backend-service
-#   annotations:
-#     # use the shared ingress-nginx
-#     kubernetes.io/ingress.class: "nginx"
-# spec:
-#   rules:
-#     - http:
-#         paths:
-#           - path: /?(.*)
-#             backend:
-#               serviceName: todo-frontend-service
-#               servicePort: 80
-#           - path: /api/?(.*)
-#             backend:
-#               serviceName: todo-backend-service
-#               servicePort: 8080
+    - host: hello-world.info
+    # - host: localhost
+      http:
+        paths:
+          - path: /timetables/
+            pathType: Prefix
+            backend:
+              service:
+                name: timetable-service
+                port:
+                  number: 5001                  
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: appointment-frontend-service
+                port:
+                  number: 80
