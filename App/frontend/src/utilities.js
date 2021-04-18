@@ -1,8 +1,8 @@
 
 const utils = {
     // baseUrl:'http://localhost:3001', // for development
-    baseUrl:'http://localhost:80', // for production 
-    // baseUrl:'http://timetable-service:3002', // for production 
+    // baseUrl:'http://localhost:80', // for docker
+    baseUrl:'http://hello-world.info:80', // for Kubernetes 
 
 	productsEndpoint:'',
 }
