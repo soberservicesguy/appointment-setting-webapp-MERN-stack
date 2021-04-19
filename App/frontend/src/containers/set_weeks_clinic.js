@@ -151,6 +151,8 @@ class SetWeeksClinic extends Component {
 								borderWidth:0,
 								fontWeight:'bold',
 								fontSize:20,
+								backgroundColor: 'blue',
+								color:'white',
 							}}
 						>
 							Add another field
@@ -384,7 +386,7 @@ class SetWeeksClinic extends Component {
 									</div>
 
 
-									<div style={{flex:1, fontSize:20, fontWeight:'bold', paddingTop:10, textAlign:'center', paddingRight:40,}}>
+									{/*<div style={{flex:1, fontSize:20, fontWeight:'bold', paddingTop:10, textAlign:'center', paddingRight:40,}}>
 										<button 
 											onClick = { () => this.props.add_empty_session({level_of_session: '', heading: '', time_slot: '', time_slot_start: '', time_slot_end: '', room_number: '', doctors_name: '', heading: '', weekday: '', fee:''}) }
 											style={{
@@ -398,7 +400,7 @@ class SetWeeksClinic extends Component {
 										>
 											+
 										</button>					
-									</div>
+									</div>*/}
 
 
 									<div style={{

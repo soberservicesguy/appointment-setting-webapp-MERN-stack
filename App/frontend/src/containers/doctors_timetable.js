@@ -47,8 +47,6 @@ class DoctorsTimetableContainer extends Component {
 			patients_contact_number:'',
 			timetable_slot_endpoint:'',
 
-
-			log:'',
 		}	
 	}
 
@@ -113,8 +111,6 @@ class DoctorsTimetableContainer extends Component {
 			}
 		)
 		.then((response) => {
-
-			this.setState(prev => ({...prev, log: response.data, }))
 
 			if (response.data.success){
 				console.log('booked')
@@ -267,7 +263,7 @@ class DoctorsTimetableContainer extends Component {
 				backgroundColor: 'black',
 				opacity:0.95,
 				border:'none',
-				height: '20vh',
+				height: '30vh',
 				width:'100%'
 			},
 
@@ -490,7 +486,7 @@ class DoctorsTimetableContainer extends Component {
 
 				<div style={{
 					width:'40%',
-					height:'60vh',
+					height:'40vh',
 					margin:'auto',
 					marginBottom:10,
 				}}>
@@ -549,9 +545,6 @@ class DoctorsTimetableContainer extends Component {
 						Booking Status: {this.state.booking_status}
 					</p>
 
-					<p>
-						Log: {this.state.log}
-					</p>
 				</div>
 
 				<button  onClick={ () => this.setState(prev => ({ ...prev, show_booking_modal: (prev.show_booking_modal===false) ? true : false })) } style={styles.buttonWithoutOutline}>
