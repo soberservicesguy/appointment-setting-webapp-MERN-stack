@@ -41,10 +41,6 @@ app.use(express.urlencoded({extended: true}));
  * -------------- ROUTES ----------------
  */
 
-app.use(function(error, req, res, next){
-	console.log('REQUEST URL IS BELOW')
-	console.log(req.originalUrl)
-});
 
 // LOAD BACKEND ROUTES FIRST, FOR REQUESTS FROM BACKEND
 // Imports all of the routes from ./routes/index.js
