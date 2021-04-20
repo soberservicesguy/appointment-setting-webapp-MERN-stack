@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
 
-// mongoose.connect('mongodb://mongodb:27017/db_for_boiler_plate', { // FOR DOCKER
-mongoose.connect('mongodb://mongodb-service:27017/db_for_boiler_plate', { // FOR KUBERNETES
+mongoose.connect('mongodb://mongodb:27017/appointment_db', { // FOR DOCKER
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
