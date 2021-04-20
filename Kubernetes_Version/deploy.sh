@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+bash create_secret_for_pulling_private_docker_image.sh
+
 kubectl apply -f volume-persistent.yaml
 kubectl apply -f volume-claimed.yaml
 
