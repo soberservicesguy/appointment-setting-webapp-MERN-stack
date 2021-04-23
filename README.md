@@ -25,9 +25,6 @@ Anyone from MongoDB Atlas and Local MongoDB service can be used. Simply adjust t
 
 Anyone from Local storage, AWS S3 or Google Cloud storage can be used. Simply adjust the .env file with path App/backend/.env 
 
-**Authentication:**	
-
-Includes jwt authentication and authorization system, as well as privileges system
 
 
 **USAGE:**
