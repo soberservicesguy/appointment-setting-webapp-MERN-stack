@@ -1,0 +1,97 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Entering Project Path') {
+            steps {
+                sh 'cd ${project_absolute_path}'
+                sh 'npm install' // installing yaml package
+            }
+        }
+
+        stage('Generating App Folder') {
+            steps {
+                sh 'node set_baseURL_in_utilities.js ${baseURL_for_App}'
+
+                sh 'cd App/frontend'
+                sh 'npm install'
+                sh 'npm run build'
+
+                sh 'rm -rf ../backend/build/*'
+                sh 'cp ./build/* ../backend/build/*
+
+                sh 'cd ..'
+            }
+        }
+
+        stage('Generating Containerzied_Version Folder') {
+            steps {
+                sh 'node set_baseURL_in_utilities.js ${baseURL_for_Containerized_Version}'
+
+                sh 'cd App/frontend'
+                sh 'npm run build'
+
+                sh 'rm -rf ../../Containers_Version/image_sources/frontend_service/build/*'
+                sh 'cp ./build/* ../../Containers_Version/image_sources/frontend_service/build/
+
+                sh 'cd ..'
+            }
+        }
+
+        stage('Generating Kubernetes_Version Folder') {
+            steps {
+                sh 'node set_baseURL_in_utilities.js ${baseURL_for_Kubernetes_Version}'
+
+                sh 'cd App/frontend'
+                sh 'npm run build'
+
+                sh 'rm -rf node_modules'
+
+                sh 'rm -rf ../../Kubernetes_Version/container_sources/frontend_source/build/*'
+                sh 'cp ./build/* ../../Kubernetes_Version/container_sources/frontend_source/build/'
+
+
+                sh 'cd ../..'
+
+                sh 'node set_docker_build_index_for_all_images.js' // a script that increments docker image name and links in all deployments
+
+                sh 'node push_all_docker_images_to_docker_registy.js' // a script that pushes all docker images
+
+            }
+        }
+
+        stage('Pushing to Github') {
+            steps {
+                sh 'git add -A'
+                sh 'git commit -m "worked more"'
+                sh 'git push -u origin main'
+            }
+        }
+
+        stage('Deploying to App Engine') {
+            steps {
+                sh 'node set_baseURL_in_utilities.js ${baseURL_for_App_engine}'
+
+                sh 'cd App/frontend'
+                sh 'npm install'
+                sh 'npm run build'
+
+                sh 'rm -rf node_modules'
+
+                sh 'rm -rf ../backend/build/*'
+                sh 'cp ./build/* ../backend/build/*
+
+                sh 'cd ../..'
+
+                sh 'node generate_dot_env_file_for_cloud_storage.js ${gcp_keyFilename} ${gcp_projectId} ${gcp_bucket}'
+                
+                sh 'cd App/backend'
+
+                // e.g node generate_dot_env_file_for_cloud_storage.js portfolio-apps-311617-9e5ae7843e5d.json portfolio-apps-311617 portfolio_content_app
+
+                sh 'gcloud app deploy'
+            }
+        }
+
+    }
+}
