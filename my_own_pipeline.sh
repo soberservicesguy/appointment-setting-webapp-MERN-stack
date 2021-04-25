@@ -1,7 +1,12 @@
+#!/usr/bin/env expect
+
 # almost same in all
 baseURL_for_App='http://localhost:3001'
 baseURL_for_Containerized_Version='http://localhost:80'
 baseURL_for_Kubernetes_Version='http://hello-world.info:80'
+
+github_username='soberservicesguy'
+password_for_github='animation!0!'
 
 # change for each project
 baseURL_for_App_engine='https://portfolio-apps-311617.uc.r.appspot.com'
@@ -96,6 +101,9 @@ node generate_dot_env_file_for_cloud_storage.js $gcp_keyFilename $gcp_projectId 
 echo 'running cd App/backend'
 cd App/backend
 # e.g node generate_dot_env_file_for_cloud_storage.js portfolio-apps-311617-9e5ae7843e5d.json portfolio-apps-311617 portfolio_content_app
+expect "Do you want to continue (Y/n)? "
+send "y"
+
 echo 'running gcloud app deploy'
 gcloud app deploy
 
@@ -104,6 +112,13 @@ gcloud app deploy
 
 
 echo 'Pushing to Github'
+spawn /usr/bin/passwd
+set pass "mysecret"
+expect "Username for 'https://github.com': "
+send "$github_username"
+expect "password: "
+send "$password_for_github"
+
 echo 'running rm -rf node_modules'
 git rm -rf node_modules
 echo 'running git add -A'

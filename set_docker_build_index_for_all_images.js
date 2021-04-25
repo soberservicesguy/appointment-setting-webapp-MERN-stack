@@ -75,7 +75,7 @@ async function set_docker_build_index_for_all_images(){
 
 
 		docker_image_current_version = docker_image_name.match(regex_pattern_for_image_version)
-		if (docker_image_current_version.length > 0){
+		if (docker_image_current_version !== null){
 
 			docker_image_current_version = docker_image_current_version[0]
 			incremented_docker_image_name = docker_image_name.replace(/\_\d+/g, `_${Number(docker_image_current_version) + 1}`)
