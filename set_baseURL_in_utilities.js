@@ -22,8 +22,8 @@ async function set_baseURL_in_utilities(){
 
 	file_lines_with_matched_regex = file_lines_with_matched_regex[0]
 	
-	console.log('file_lines_with_matched_regex')
-	console.log(file_lines_with_matched_regex)
+	// console.log('file_lines_with_matched_regex')
+	// console.log(file_lines_with_matched_regex)
 
 	const index = file_lines_content.indexOf( file_lines_with_matched_regex );
 	
@@ -38,7 +38,7 @@ async function set_baseURL_in_utilities(){
 	let final_content_to_write = file_lines_content.join("\n")	
 
 
-	console.log(final_content_to_write); 
+	// console.log(final_content_to_write); 
 
 
 	await fs.writeFile(file_path, final_content_to_write, function (err) {

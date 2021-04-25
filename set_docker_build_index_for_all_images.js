@@ -224,8 +224,8 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 
 		all_deployment_files.map(async (deployment_file) => {
 
-			console.log('deployment_file')
-			console.log(deployment_file)
+			// console.log('deployment_file')
+			// console.log(deployment_file)
 
 			// console.log({deployment_file, file_base_name})
 

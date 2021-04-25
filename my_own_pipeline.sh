@@ -8,8 +8,8 @@ gcp_bucket='portfolio_content_app'
 
 echo 'Entering Project Path'
 echo 'installing yaml'
-echo 'running npm install'
-npm install
+echo 'running npm install yaml'
+npm install yaml
 
 echo 'Generating App Folder'
 echo 'running set_baseURL_in_utilities.js $baseURL_for_App'
@@ -23,10 +23,10 @@ echo 'running npm run build'
 npm run build
 echo 'running rm -rf ../backend/build/*'
 rm -rf ../backend/build/*
-echo 'running cp ./build/* ../backend/build/'
-cp ./build/* ../backend/build/
-echo 'running cd ..'
-cd ..
+echo 'running cp -r ./build/* ../backend/build/'
+cp -r ./build/* ../backend/build/
+echo 'running cd ../..'
+cd ../..
 
 echo 'Generating Containerzied_Version Folder'
 echo 'running node set_baseURL_in_utilities.js $baseURL_for_Containerized_Version'
@@ -37,10 +37,10 @@ echo 'running npm run build'
 npm run build
 echo 'running rm -rf ../../Containers_Version/image_sources/frontend_service/build/*'
 rm -rf ../../Containers_Version/image_sources/frontend_service/build/*
-echo 'running cp ./build/* ../../Containers_Version/image_sources/frontend_service/build/'
-cp ./build/* ../../Containers_Version/image_sources/frontend_service/build/
-echo 'running cd ..'
-cd ..
+echo 'running cp -r ./build/* ../../Containers_Version/image_sources/frontend_service/build/'
+cp -r ./build/* ../../Containers_Version/image_sources/frontend_service/build/
+echo 'running cd ../..'
+cd ../..
 
 
 echo 'Generating Kubernetes_Version Folder'
@@ -54,8 +54,8 @@ echo 'running rm -rf node_modules'
 rm -rf node_modules
 echo 'running rm -rf ../../Kubernetes_Version/container_sources/frontend_source/build/*'
 rm -rf ../../Kubernetes_Version/container_sources/frontend_source/build/*
-echo 'running cp ./build/* ../../Kubernetes_Version/container_sources/frontend_source/build/'
-cp ./build/* ../../Kubernetes_Version/container_sources/frontend_source/build/
+echo 'running cp -r ./build/* ../../Kubernetes_Version/container_sources/frontend_source/build/'
+cp -r ./build/* ../../Kubernetes_Version/container_sources/frontend_source/build/
 echo 'running cd ../..'
 cd ../..
 echo 'running node set_docker_build_index_for_all_images.js'
@@ -84,8 +84,8 @@ echo 'running rm -rf node_modules'
 rm -rf node_modules
 echo 'running rm -rf ../backend/build/*'
 rm -rf ../backend/build/*
-echo 'running cp ./build/* ../backend/build/'
-cp ./build/* ../backend/build/
+echo 'running cp -r ./build/* ../backend/build/'
+cp -r ./build/* ../backend/build/
 echo 'running cd ../..'
 cd ../..
 echo 'running node generate_dot_env_file_for_cloud_storage.js $gcp_keyFilename $gcp_projectId $gcp_bucket'
