@@ -75,36 +75,36 @@ async function set_docker_build_index_for_all_images(){
 
 
 		docker_image_current_version = docker_image_name.match(regex_pattern_for_image_version)
-		docker_image_current_version = docker_image_current_version[0]
+		if (docker_image_current_version.length > 0){
+
+			docker_image_current_version = docker_image_current_version[0]
+			incremented_docker_image_name = docker_image_name.replace(/\_\d+/g, `_${Number(docker_image_current_version) + 1}`)
+
+			file_lines_content.map((line) => {
+				// let final_line = line.replace(docker_image_name, incremented_docker_image_name)
+				let final_line = line.replace(new RegExp(docker_image_name, 'g'), incremented_docker_image_name)
+				// console.log(line)
+				// console.log(final_line)
+				final_content.push(`\n${final_line}`)
+			})
+
+			final_content_to_use = final_content.join("")	
+
+			final_content_to_use.replace(new RegExp('\n', 'g'), '')
+
+			// console.log(final_content_to_use)
+
+
+
+			await fs.writeFile(docker_image_file_path, final_content_to_use, function (err) {
+			  if (err) return console.log(err);
+			});
+		}
 
 		// console.log(docker_image_current_version)
 
-		incremented_docker_image_name = docker_image_name.replace(/\_\d+/g, `_${Number(docker_image_current_version) + 1}`)
 		// console.log(docker_image_name)
 		// console.log(incremented_docker_image_name)
-
-
-		file_lines_content.map((line) => {
-			// let final_line = line.replace(docker_image_name, incremented_docker_image_name)
-			let final_line = line.replace(new RegExp(docker_image_name, 'g'), incremented_docker_image_name)
-			// console.log(line)
-			// console.log(final_line)
-			final_content.push(`\n${final_line}`)
-		})
-
-		final_content_to_use = final_content.join("")	
-
-		final_content_to_use.replace(new RegExp('\n', 'g'), '')
-
-		// console.log(final_content_to_use)
-
-
-
-		await fs.writeFile(docker_image_file_path, final_content_to_use, function (err) {
-		  if (err) return console.log(err);
-		});
-
-
 
 	});
 
@@ -315,7 +315,7 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 					// console.log(line_having_container_reference)
 
 				} catch (err){
-					console.log(err)
+					// console.log(err)
 				}
 
 			}
