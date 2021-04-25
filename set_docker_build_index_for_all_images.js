@@ -67,7 +67,7 @@ async function set_docker_build_index_for_all_images(){
 
 		docker_image_name = docker_image_name.replace(' .', '')
 
-		console.log({docker_image_name})
+		// console.log({docker_image_name})
 		docker_images.push(docker_image_name)
 
 		// console.log(docker_image_name)
@@ -109,8 +109,8 @@ async function set_docker_build_index_for_all_images(){
 	});
 
 	// console.log(file_lines_content)
-	console.log('docker_images')
-	console.log(docker_images)
+	// console.log('docker_images')
+	// console.log(docker_images)
 	return docker_images
 
 }
@@ -210,8 +210,8 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 		file_base_name = file_base_name_dict.docker_image_tokens
 		docker_image_final = file_base_name_dict.docker_image_final
 
-		console.log('docker_image_final')
-		console.log(docker_image_final)
+		// console.log('docker_image_final')
+		// console.log(docker_image_final)
 		// console.log('HERE')
 		// console.log(docker_image_final)
 		docker_without_version = docker_image_final.replace(/\_\d+/, "")
@@ -224,37 +224,21 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 
 		all_deployment_files.map(async (deployment_file) => {
 
+			console.log('deployment_file')
+			console.log(deployment_file)
+
 			// console.log({deployment_file, file_base_name})
 
 			if ( deployment_file.includes(file_base_name) ){
-
-
-				// try{
-				// 	// const doc = yaml.load(fs.readFileSync('/home/ixti/example.yml', 'utf8'));
-				// 	var file_lines_content = yaml.load(fs.readFileSync(`${deployments_and_services_path}/${deployment_file}`, 'utf8'))
-				// 	console.log('HI')
-				// 	console.log(file_lines_content)
-
-				// 	console.log({docker_image_final})
-				// 	line_having_container_reference = file_lines_content.filter(
-				// 		function(line){
-				// 				// return new RegExp(docker_image_final).test(line) === true
-				// 				return new RegExp(docker_image_base_name).test(line) === true
-				// 		}
-				// 	)
-				// 	console.log('line_having_container_reference')
-				// 	console.log(line_having_container_reference)
-
-				// } catch (err){
-				// 	console.log(err)
-				// }
-
 
 
 				try{
 
 
 					const file_lines_content = fs.readFileSync(`${deployments_and_services_path}/${deployment_file}`, 'utf8')
+					// console.log('file_lines_content')
+					// console.log(file_lines_content)
+
 					let file_lines_content_line_list = YAML.stringify(file_lines_content).split("\n")
 					
 					// console.log(file_lines_content_line_list)
@@ -262,10 +246,12 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 					// console.log('docker_image_base_name')
 					// console.log(docker_image_base_name_original)
 					// console.log({docker_image_final})
+					// console.log({docker_without_version})
+
+
 					line_having_container_reference = file_lines_content_line_list.filter(
 						function(line){
-								// return new RegExp(docker_image_final).test(line) === true
-								return new RegExp(docker_without_version).test(line) === true
+							return new RegExp(docker_without_version).test(line) === true
 						}
 					)
 
@@ -313,8 +299,8 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 					})
 
 
-					console.log('file_lines_content_line_list')
-					console.log(final_content_to_write)
+					// console.log('file_lines_content_line_list')
+					// console.log(final_content_to_write)
 
 					final_content_to_write = final_content_to_write.join("\n")	
 
@@ -332,55 +318,12 @@ async function set_docker_image_in_deployment_file(deployment_file_base_names){
 					console.log(err)
 				}
 
-
-
-
-				// try{
-
-				// 	var file_lines_content = fs.readFileSync(`${deployments_and_services_path}/${deployment_file}`).toString().split("\n");
-				// 	// file_lines_content = yaml.load(file_lines_content)
-				// 	console.log(file_lines_content)
-
-				// 	console.log({docker_image_final})
-				// 	line_having_container_reference = file_lines_content.filter(
-				// 		function(line){
-				// 				// return new RegExp(docker_image_final).test(line) === true
-				// 				return new RegExp(docker_image_base_name).test(line) === true
-				// 		}
-				// 	)
-				// 	console.log('line_having_container_reference')
-				// 	console.log(line_having_container_reference)
-
-				// } catch (err){
-				// 	console.log(err)
-				// }
-
 			}
 
 		})
 
 	})
 
-
-
-
-	// docker_image_name_without_version = docker_image_name.replace(/\_\d+/, '')
-
-	// console.log(docker_image_name_without_version)
-
-	// deployment_file = all_deployment_files.filter((file_name) => {
-	// 	return new RegExp(docker_image_name_without_version, 'g').test(file_name) === true
-	// })
-
-	// console.log(deployment_file)
-
 }
 
-
-
-
-// get last underscore in the first line having underscore and check what number follows
-// get the entire word having the underscore and number in the end
-// now get the same word in the upcoming lines
-// now increment the word in all instances
 module.exports = set_docker_build_index_for_all_images
