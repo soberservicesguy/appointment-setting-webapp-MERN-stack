@@ -1,17 +1,3 @@
-// DB_STRING='mongodb://localhost:27017/db_for_boiler_plate'
-// DB_STRING_PROD="mongodb+srv://DBuser:AnimatioN1010@simpleclusterforandroid.enzb4.mongodb.net/dbForAndroid?retryWrites=true&w=majority"
-// NODE_ENV='production'
-// PORT=3001
-
-// GOOGLE_CLOUD_STORAGE_ENABLED='true'
-// AWS_S3_STORAGE_ENABLED='false'
-
-
-
-// gcp_keyFilename='portfolio-apps-311617-9e5ae7843e5d.json'
-// gcp_projectId='portfolio-apps-311617'
-// gcp_bucket='portfolio_content_app'
-
 var arguments_supplied = process.argv.slice(2);
 var gcp_keyFilename = arguments_supplied[0]
 var gcp_projectId = arguments_supplied[1]
