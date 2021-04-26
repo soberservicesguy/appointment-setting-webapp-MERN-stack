@@ -93,6 +93,11 @@ class RootRouterContainer extends Component {
 							<HomeContainer/>
 						</Route>
 
+						<Route exact path="/" render={() => (
+							<HomeContainer/>
+						)}/>
+
+
 						<Route exact path="/*" render={() => (
 							<HomeContainer/>
 						)}/>
