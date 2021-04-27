@@ -635,7 +635,7 @@ DoctorsTimetableContainer.defaultProps = {
 	graph_slot_height:120,
 	graph_bars_gap:5,
 	timeSlotFontSize: 15,
-	weekDays:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+	weekDays:['Monday', 'Teusday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
 	colors_for_departments:{
 		Cardiology:'blue', 
 		Traumatology:'red',
