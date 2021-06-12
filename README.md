@@ -2,8 +2,7 @@
 
 **Live App:**
 
-https://portfolio-apps-311617.uc.r.appspot.com
-
+https://appointment-mern-web.herokuapp.com
 
 **Project Details:**
 
