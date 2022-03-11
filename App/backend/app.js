@@ -38,14 +38,11 @@ app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-// // setting up cors
-// app.use(
-//   cors({
-//     origin: "http://localhost:3000", // restrict calls to those this address
-//     methods: ['GET', 'POST'] // only allow GET, POST requests
-//   })
-// );
-
+try {
+  app.use(require('./config/cors_policy'))
+} catch (err){
+  console.log('couldnt incorporate cors policy')
+}
 
 
 

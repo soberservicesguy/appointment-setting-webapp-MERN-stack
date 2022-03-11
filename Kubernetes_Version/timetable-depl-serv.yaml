@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: timetable
-        image: soberservicesguy/portfolio-images:appointment_timetablenull
+        image: appointment_timetable:latest
         resources:
           limits:
             cpu: "200m"
